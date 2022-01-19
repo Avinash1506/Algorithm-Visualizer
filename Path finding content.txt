@@ -1,0 +1,15 @@
+contains option to select a aprticular algo.
+
+contains options like: 
+	visualize: to visualize the algo.
+	clear board: Used to clear the board.
+	clear walls: Used to remove all the walls.
+	speed: Used to adjust speed.
+	
+Contains a grid where each cell is a component.
+Contains start node and end node by default and user can adjust these 2 positions.
+User can add walls on the grids.
+
+When user clicks on visualize button then the visualization starts.
+
+

@@ -1,0 +1,106 @@
+<!-- <div class="align">
+  <label>Array:</label>
+</div>
+<div class="input">
+  <input />
+</div>
+<div class="firstHalf">
+  <div class="textInc">Speed</div>
+  <button class="dec">-</button>
+  <div class="size">1</div>
+  <button class="inc">+</button>
+</div> -->
+<div class="container">
+  <div class="flex-container">
+    <div class="align">
+      <strong><div class="textInc firstHalf align">Speed</div></strong>
+      <div class="input align">
+        <!-- <input
+          type="range"
+          class="speed"
+          min="1"
+          max="10"
+          value="5"
+          (change)="changeSpeed()"
+          #speed
+        /> -->
+        <mat-slider
+        thumbLabel
+        [displayWith]="formatLabel"
+        [disabled] = "disabledBool"
+        step="1"
+        min="1"
+        max="10"
+        value="5"
+        (input)="changeSpeed($event)"
+        class="sliderC"
+        #speed
+        aria-label="units">
+        </mat-slider>
+      </div>
+    </div>
+    <!-- <div *ngIf="textOnButtons[0] == 'Visualize'">
+      <div class="align">
+        <mat-form-field class="example-full-width input" appearance="fill">
+          <mat-label>Source-X</mat-label>
+          <input matInput [(ngModel)] = "sourceX" #sourceI (focus)="old=sourceX" (change)="getSourceX($event, old)">
+        </mat-form-field>
+      </div>
+      <div class="align">
+        <mat-form-field class="example-full-width input" appearance="fill">
+          <mat-label>Source-Y</mat-label>
+          <input matInput [(ngModel)] = "sourceY" #sourceJ (focus)="old=sourceY" (change)="getSourceY($event, old)">
+        </mat-form-field>
+      </div>
+      <div class="align">
+        <mat-form-field class="example-full-width" appearance="fill" class="input">
+          <mat-label>Destination-X</mat-label>
+          <input matInput [(ngModel)] = "destinationX" #destinationI (focus)="old=destinationX" (change)="getDestinationX($event, old)">
+        </mat-form-field>
+      </div>
+      <div class="align">
+        <mat-form-field class="example-full-width" appearance="fill" class="input">
+          <mat-label>Destination-Y</mat-label>
+          <input matInput [(ngModel)] = "destinationY" #destinationJ (focus)="old=destinationY" (change)="getDestinationY($event, old)">
+        </mat-form-field>
+      </div>
+    </div> -->
+    <div class="align">
+      <div class="align space1">
+        <button mat-raised-button [disabled] = "disabledBool" class="btn" (click) = "solve()">{{ textOnButtons[0] }}</button>
+        <!-- <button class="speed" (click)="sortArray()">Sort</button> -->
+      </div>
+      <div class="align space space1">
+        <button mat-raised-button [disabled] = "disabledBool" class="btn"  (click)="generateNew()">{{ textOnButtons[1] }}</button>
+        <!-- <button class="speed" (click)="generateNewArray()">New Array</button> -->
+      </div>
+    </div>
+  </div>
+<div *ngIf="textOnButtons[0] == 'Visualize'" class="alignCenter">
+    <div class="align first changeWidth">
+      <mat-form-field class="example-full-width input" appearance="fill">
+        <mat-label><strong>Source-X</strong></mat-label>
+        <input matInput [disabled] = "disabledBool" [(ngModel)] = "sourceX" #sourceI (focus)="old=sourceX" (change)="getSourceX($event, old)">
+      </mat-form-field>
+    </div>
+    <div class="align changeWidth">
+      <mat-form-field class="example-full-width input" appearance="fill">
+        <mat-label><strong>Source-Y</strong></mat-label>
+        <input matInput [disabled] = "disabledBool" [(ngModel)] = "sourceY" #sourceJ (focus)="old=sourceY" (change)="getSourceY($event, old)">
+      </mat-form-field>
+    </div>
+    <div class="align changeWidth">
+      <mat-form-field class="example-full-width" appearance="fill" class="input">
+        <mat-label><strong>Destination-X</strong></mat-label>
+        <input matInput [disabled] = "disabledBool" [(ngModel)] = "destinationX" #destinationI (focus)="old=destinationX" (change)="getDestinationX($event, old)">
+      </mat-form-field>
+    </div>
+    <div class="align last">
+      <mat-form-field class="example-full-width" appearance="fill" class="input">
+        <mat-label><strong>Destination-Y</strong></mat-label>
+        <input matInput [disabled] = "disabledBool" [(ngModel)] = "destinationY" #destinationJ (focus)="old=destinationY" (change)="getDestinationY($event, old)">
+      </mat-form-field>
+    </div>
+</div>
+</div>
+<!-- </div> -->

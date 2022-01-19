@@ -1,0 +1,26 @@
+<h1 class="center">{{algoType}} Visualizer</h1>
+<div class="full">
+  <mat-tab-group mat-stretch-tabs (selectedTabChange)="getAlgo($event, 2)">
+    <!-- <strong> -->
+
+      <div *ngFor="let tech of algorithms">
+        <div *ngIf="tech == 'bfs' || tech == 'dfs' ;then content else other_content"></div>
+        <ng-template #content>
+          <mat-tab 
+            label="{{tech | uppercase}}"
+            [disabled] = "blockHeader"
+            >
+          </mat-tab>
+        </ng-template>
+        <ng-template #other_content>
+          <mat-tab 
+          label="{{tech | titlecase}}"
+          [disabled] = "blockHeader"
+          >
+          </mat-tab>
+        </ng-template>
+      </div>
+    
+    <!-- </strong> -->
+  </mat-tab-group>
+</div>

@@ -1,0 +1,53 @@
+<!-- <table>
+  <tbody> -->
+<!-- <div *ngFor="let val of noOfRows" class="rowsDiv"><div *ngFor="let val1 of noOfColumns" class="columnsDiv"><div class="box"></div></div></div><!--  
+
+--> 
+<!-- <app-grid></app-grid> -->
+<!--  -->
+<!-- <br /> -->
+<!-- </div> -->
+<!-- </tbody>
+</table> -->
+<!-- <button (click)="generateNewBoard()">generate new board</button>
+<button (click)="visualize()">Visualize</button> -->
+<div class="heading">
+  <strong> {{ algoName | uppercase }} </strong>
+  <!-- <div><button class="sort" (click)="sortArray()">SORT</button></div> -->
+  <!-- <div><button class="test" (click)="test()">TEST</button></div> -->
+</div>
+<div class="boundingBox" #board>
+  <div class="first">
+    <!-- <div style="padding-right: 10px" *ngIf="rownum <= 9">{{ '0'+rownum }}</div> -->
+    <!-- <div *ngIf="rownum >= 10">{{ rownum }}</div> -->
+    <div *ngFor="let i of arr" class="colNum">
+      <strong>
+        <div  *ngIf="i <= 9">
+          {{'0'+i}}
+        </div>
+      </strong>
+      <strong>
+        <div  *ngIf="i >= 10">
+          {{i}}
+        </div>
+      </strong>
+    </div>
+    <!-- <div *ngFor="let i of arr" class="colNum">{{i}}</div> -->
+  </div>
+  <div >
+    <div class="row" *ngFor="let rownum of rows">
+      <!-- <div style="padding-right: 20px" *ngIf="rownum <= 9">{{ rownum }}</div>
+      <div style="padding-right: 11px" *ngIf="rownum >= 10">{{ rownum }}</div> -->
+      <strong><div style="padding-right: 10px;width:20px; min-width:20px" *ngIf="rownum <= 9">{{ '0'+rownum }}</div></strong>
+      <strong><div style="padding-right: 10px;width:20px; min-width:20px" *ngIf="rownum >= 10">{{ rownum }}</div></strong>
+      <!-- <div class="col" > -->
+        <app-grid [rowno]="rownum" [colno]="colnum" [start]="startIdx" [end]="endIdx" class="blocks" *ngFor="let colnum of columns"></app-grid>
+      <!-- <div class="box"></div> -->
+      <!-- </div> -->
+    <!-- <div class="box">
+    </div>
+    <div class="box">
+    </div> -->
+    </div>
+  </div>
+</div>

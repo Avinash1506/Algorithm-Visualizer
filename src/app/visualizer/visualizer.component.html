@@ -1,0 +1,22 @@
+<!-- <p *ngFor="let data of arrayData">{{ data }}</p> -->
+<div class="heading">
+  <strong> {{ sortTech | titlecase }} </strong>
+  <!-- <div><button class="sort" (click)="sortArray()">SORT</button></div> -->
+  <!-- <div><button class="test" (click)="test()">TEST</button></div> -->
+</div>
+<div class="leftRightSpace">
+<div class="boundary" #boundary>
+  <div class="center">
+    <div
+      class="elements"
+      *ngFor="let data of arrayData"
+      [style.width.px]="widthOfBar"
+      [style.height.px]="data * 15"
+      [style.backgroundColor]="color"
+      #bars
+    >
+      {{ data }}
+    </div>
+  </div>
+</div>
+</div>
