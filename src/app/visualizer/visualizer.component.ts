@@ -112,7 +112,7 @@ export class VisualizerComponent implements OnInit {
       widthOfBoundary -= 2 * noOfElements;
       console.log('Boundary ', widthOfBoundary);
       this.widthOfBar = widthOfBoundary / noOfElements;
-      this.widthOfBar = Math.max(20, this.widthOfBar);
+      // this.widthOfBar = Math.max(20, this.widthOfBar);
       console.log('Bar ', this.widthOfBar);
     }
   }

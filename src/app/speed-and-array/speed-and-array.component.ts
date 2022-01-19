@@ -40,6 +40,7 @@ export class SpeedAndArrayComponent implements OnInit {
   @Output() myEvent5 = new EventEmitter();
   @Output() myEvent10 = new EventEmitter();
   @Output() positionEvent = new EventEmitter();
+  @ViewChild('container') container: ElementRef = {} as ElementRef;
   ngOnInit(): void {
     this.generateNew();
     // this.arrayElements = [3, 2, 1, 4];
@@ -79,7 +80,18 @@ export class SpeedAndArrayComponent implements OnInit {
       this.displayArray = '';
       this.arrayElements = [];
       console.log('Hello!');
-      this.size = this.getRndInteger(4, 35);
+
+      let noOfElements:number = 4;
+      if (this.container.nativeElement !== undefined) {
+        let widthOfContainer = this.container.nativeElement.offsetWidth - 20;
+        console.log(widthOfContainer);
+        noOfElements= Math.floor(widthOfContainer / 21);
+        // this.widthOfBar = Math.max(20, this.widthOfBar);
+        console.log('No of elements ', noOfElements);
+      }
+
+      this.size = this.getRndInteger(4, noOfElements);
+      // this.size = 53;
       for (let i = 0; i < this.size; i++) {
         let x = this.getRndInteger(2, 32);
         this.arrayElements.push(x);
