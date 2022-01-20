@@ -36,6 +36,9 @@ img{
     /* background-image: linear-gradient(to right bottom, #457b9d, #7389b0, #9c98bd, #bfa8c7, #ddbbcf, #e6c6db, #eed2e8, #f7ddf4, #e9e4ff, #d6edff, #c6f5ff, #c1fcff); */
     /* background-image: linear-gradient(160deg, #757bc8 50%, #dee2ff 50%); */
     /* background-image: linear-gradient(160deg, #757bc8 50%, #62b6cb 50%); */
-    background-image: linear-gradient(to left bottom, #d7e3fc 60%, #62b6cb 40%);
+    /* background-image: linear-gradient(to left bottom, #d7e3fc 60%, #62b6cb 40%); */
+    /* background-image: linear-gradient(to right, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1); */
+    /* background-image: linear-gradient(to right, #26daff, #24ceff, #48c1ff, #6fb1ff, #93a0ff, #7ba6ff, #61abff, #43afff, #00c5fb, #00d5e2, #2ce1bb, #90e794); */
+    background-image: linear-gradient(to right bottom, #26daff, #24ceff, #48c1ff, #6fb1ff, #93a0ff, #9e99f9, #a892f1, #b18be9, #a88ee9, #a091e9, #9894e8, #9096e7);
     /* background-image: linear-gradient(35deg, #62b6cb 33%, #dee2ff 33%, ); */
 }

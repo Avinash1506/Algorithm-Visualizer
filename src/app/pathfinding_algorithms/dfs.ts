@@ -114,6 +114,22 @@ function dfs_rec(start_i:number, start_j:number, end_i:number, end_j:number, noO
 
 
 export function dfs(start_i:number, start_j:number, end_i:number, end_j:number, noOfRows:number, noOfCols:number, blocks:any, blockedIndices:boolean[], speed:number, obj:any){
+    let flag:boolean = true;
+    for(let i = 0; i < row_inc.length; i++) {
+        let new_i = start_i + row_inc[i];
+        let new_j = start_i + col_inc[i];
+        if(isValid(new_i, new_j, noOfRows, noOfCols)) {
+            if(!blockedIndices[new_i*noOfCols + new_j]) {
+                flag = false;
+                break;
+            }
+        }
+    }
+
+    if(flag) {
+        obj.blockEventFunc();
+    }
+    let counter:number = 0;
     let c:number = 0; // for adjusting of the speed of the visualization
     let stack:[number, number, number, number][] = [[start_i,start_j, -1, -1]]; // queue is used to stroe the nodes that are being visited
     let path:number[] = []; // used to store the indexes of the path once the 
@@ -142,11 +158,16 @@ export function dfs(start_i:number, start_j:number, end_i:number, end_j:number, 
         let prev_i:number = node[2];
         let prev_j:number = node[3];
         val1.push([new_i, new_j, noOfCols, prev_i, prev_j]); // adding new indices, no of columns and current indeices into array to access them inside setTimeout
+        counter++;
         let timerVar = setTimeout(() => {
             if(val1.length !== 0) { // if val1 is not empty then we will visualize it else we will not because once the target node is visited then the visited array is cleared and initialized to empty array
                 let [new_i, new_j, noOfCols, prev_i, prev_j]:[number, number, number, number, number] = val1[0]; // accessing the starting element from the val1 array
                 val1.shift(); //deleting the first leement of val1 array
+                counter--;
                 // given i and j i.e., indices of row and column of 2d array, find corresponding index in 1d array
+                if(counter == 0 && !(new_i == end_i && new_j == end_j)) {
+                    obj.blockEventFunc();
+                }
                 let idx:number = (+new_i)*(+noOfCols)+(+new_j);
                 if(idx != start_i*noOfCols + start_j && idx != end_i*noOfCols + end_j){
                     blocks[idx].style.backgroundColor = '#48cae4'; // changing the background color of newly visited node

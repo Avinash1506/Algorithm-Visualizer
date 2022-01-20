@@ -38,5 +38,6 @@
   padding-bottom: 20px;
 }
 .elements{
-  color:white;
+  /* color:white; */
+  font-weight: bold;
 }

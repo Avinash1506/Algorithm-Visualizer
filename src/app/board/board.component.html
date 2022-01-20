@@ -12,7 +12,8 @@
 <!-- <button (click)="generateNewBoard()">generate new board</button>
 <button (click)="visualize()">Visualize</button> -->
 <div class="heading">
-  <strong> {{ algoName | uppercase }} </strong>
+  <strong *ngIf="algoName == 'DFS' || algoName=='BFS'"> {{ algoName | uppercase }} </strong>
+  <strong *ngIf="algoName == 'Dijkstra'">{{algoName | titlecase}}</strong>
   <!-- <div><button class="sort" (click)="sortArray()">SORT</button></div> -->
   <!-- <div><button class="test" (click)="test()">TEST</button></div> -->
 </div>
@@ -34,14 +35,15 @@
     </div>
     <!-- <div *ngFor="let i of arr" class="colNum">{{i}}</div> -->
   </div>
-  <div >
+  <div #appgrid>
     <div class="row" *ngFor="let rownum of rows">
       <!-- <div style="padding-right: 20px" *ngIf="rownum <= 9">{{ rownum }}</div>
       <div style="padding-right: 11px" *ngIf="rownum >= 10">{{ rownum }}</div> -->
       <strong><div style="padding-right: 10px;width:20px; min-width:20px" *ngIf="rownum <= 9">{{ '0'+rownum }}</div></strong>
       <strong><div style="padding-right: 10px;width:20px; min-width:20px" *ngIf="rownum >= 10">{{ rownum }}</div></strong>
       <!-- <div class="col" > -->
-        <app-grid [rowno]="rownum" [colno]="colnum" [start]="startIdx" [end]="endIdx" class="blocks" *ngFor="let colnum of columns"></app-grid>
+        <!-- <app-grid [rowno]="rownum" [colno]="colnum" [start]="startIdx" [end]="endIdx" class="blocks" *ngFor="let colnum of columns" ></app-grid> -->
+        <div *ngFor="let colnum of columns" class="box blocks"></div>
       <!-- <div class="box"></div> -->
       <!-- </div> -->
     <!-- <div class="box">

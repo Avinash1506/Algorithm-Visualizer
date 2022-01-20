@@ -20,14 +20,16 @@ export class BoardComponent implements OnInit {
   @Output() startAndEndIdxEvent = new EventEmitter();
   @Output() startAndEndIdxAndBlockedEvent = new EventEmitter();
   @ViewChild('board') board: ElementRef = {} as ElementRef;
+  @ViewChild('appgrid') appgrid: ElementRef = {} as ElementRef;
   arr:number[] = [];
   rows: number[] = [];
   columns: number[] = [];
   noOfRows:number = 15;
   noOfCols:number = 50;
-  startIdx:[number,number] = [5,5];
-  endIdx:[number,number] = [5,10];
+  startIdx:[number,number] = [0,0];
+  endIdx:[number,number] = [0,0];
   blockedIndices:boolean[] = [];
+  dijValues:number[] = [];
   constructor(private elem:ElementRef) {}
 
   ngOnInit(): void {
@@ -124,23 +126,47 @@ export class BoardComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
     console.log(changes);
+    if('algoName' in changes) {
+      setTimeout(()=>{
+        if(changes['algoName']['currentValue'] == 'Dijkstra') { 
+          this.dijValues = this.generateWeights();
+        }
+        else {
+          this.removeWeights();
+        }
+      }, 0);
+    }
     if('generateNew' in changes && changes['generateNew']['previousValue'] != undefined) {
+      // this.visualize(dijValues);
       setTimeout(()=>{
         this.generateNewBoard('second');
+        console.log(this.appgrid['nativeElement']);
+        if(this.algoName == 'Dijkstra') {
+          this.dijValues = this.generateWeights();
+        }
       }, 0);
       console.log("Hello");
     } 
 
     else{
       if('visualizeAlgo' in changes && changes['visualizeAlgo']['previousValue'] != undefined) {
-        this.visualize();
+        let idx:number = 0;
+        // let dijValues:number[] = [];
+        console.log(this.appgrid['nativeElement']);
+        // if(this.algoName == 'Dijkstra') {
+        //   this.dijValues = this.generateWeights();
+        // }
+        this.visualize(this.dijValues);
       }
       if('posArray' in changes && changes['posArray']['firstChange'] != true) {
         let arrayBlocks = this.elem.nativeElement.querySelectorAll('.blocks');
         this.clearBoard(arrayBlocks);
         console.log(changes);
-        let startIdxPrev = [+changes['posArray']['previousValue'][0], +changes['posArray']['previousValue'][1]];
-        let endIdxPrev = [+changes['posArray']['previousValue'][2], +changes['posArray']['previousValue'][3]];
+        console.log(this.startIdx);
+        // let startIdxPrev = [+changes['posArray']['previousValue'][0], +changes['posArray']['previousValue'][1]];
+        let startIdxPrev = this.startIdx;
+        // let endIdxPrev = [+changes['posArray']['previousValue'][2], +changes['posArray']['previousValue'][3]];
+        let endIdxPrev = this.endIdx;
         this.startIdx = [+changes['posArray']['currentValue'][0], +changes['posArray']['currentValue'][1]];
         this.endIdx = [+changes['posArray']['currentValue'][2], +changes['posArray']['currentValue'][3]];
         this.changeSourceAndDestination(this.startIdx, this.endIdx, startIdxPrev, endIdxPrev);
@@ -154,6 +180,49 @@ export class BoardComponent implements OnInit {
     }
   }
   
+  generateWeights() {
+    let dijValues:number[] = [];
+    let idx:number = 0;
+    console.log(this.appgrid['nativeElement']['childNodes']);
+    let collectionOfRows:any = this.appgrid['nativeElement']['childNodes'];
+    for(let i=0;i<collectionOfRows.length - 1; i++) {
+      let collectionOfCols:any = collectionOfRows[i]['childNodes'];
+      for(let j = 2; j < collectionOfCols.length - 1; j++) {
+        // console.log(collectionOfCols[j]['childNodes']);
+        console.log(this.appgrid['nativeElement']['childNodes'][i]['childNodes'][j]);
+        if(this.appgrid['nativeElement']['childNodes'][i]['childNodes'][j] != [] && this.blockedIndices[idx] == false)  {
+            let val:number= this.getRandomInt(1,100);
+            this.appgrid['nativeElement']['childNodes'][i]['childNodes'][j]['innerHTML'] = val;
+            dijValues.push(val);
+        }
+        else if(this.appgrid['nativeElement']['childNodes'][i]['childNodes'][j] != [] && this.blockedIndices[idx] == true) {
+          dijValues.push(1000000000);
+        }
+        idx++;
+      }
+    }
+
+    return dijValues;
+  }
+
+  removeWeights() {
+    let idx:number = 0;
+    this.dijValues = [];
+    // console.log(this.appgrid['nativeElement']['childNodes']);
+    let collectionOfRows:any = this.appgrid['nativeElement']['childNodes'];
+    for(let i=0;i<collectionOfRows.length - 1; i++) {
+      let collectionOfCols:any = collectionOfRows[i]['childNodes'];
+      for(let j = 2; j < collectionOfCols.length - 1; j++) {
+        // console.log(collectionOfCols[j]['childNodes']);
+        // console.log(this.appgrid['nativeElement']['childNodes'][i]['childNodes'][j]);
+        if(this.appgrid['nativeElement']['childNodes'][i]['childNodes'][j] != [] && this.blockedIndices[idx] == false)  {
+            this.appgrid['nativeElement']['childNodes'][i]['childNodes'][j]['innerHTML'] = '';
+        }
+        idx++;
+      }
+    }
+  }
+
   changeSourceAndDestination(startIdx:number[], endIdx:number[], startIdxPrev:number[], endIdxPrev:number[]) {
     let arrayBlocks = this.elem.nativeElement.querySelectorAll('.blocks');
     let idx1:number = startIdxPrev[0]*+this.noOfCols + startIdxPrev[1];
@@ -173,7 +242,7 @@ export class BoardComponent implements OnInit {
     console.log("Hello in method");
   }
 
-  visualize(){
+  visualize(arr:number[]){
     if(this.speed == 0) {
       this.speed = 600;
     }
@@ -195,12 +264,12 @@ export class BoardComponent implements OnInit {
       let x = dfs(this.startIdx[0], this.startIdx[1], this.endIdx[0], this.endIdx[1], this.noOfRows, this.noOfCols, arrayBlocks, this.blockedIndices, this.speed, this);
       console.log(x);
     }
-    else if(this.algoName == 'a*')
+    else if(this.algoName == 'A Star')
       // astar(this.startIdx[0], this.startIdx[1], this.endIdx[0], this.endIdx[1], this.noOfRows, this.noOfCols, arrayBlocks, this.blockedIndices, 500);
-      astar(this.startIdx[0], this.startIdx[1], this.endIdx[0], this.endIdx[1], this.noOfRows, this.noOfCols, arrayBlocks, this.blockedIndices, this.speed);
-    // else if(this.algoName == 'dijkstra'){
-    //   dijkstra(this.startIdx[0], this.startIdx[1], this.endIdx[0], this.endIdx[1], this.noOfRows, this.noOfCols, arrayBlocks, this.blockedIndices, 500);
-    // }
+      astar(this.startIdx[0], this.startIdx[1], this.endIdx[0], this.endIdx[1], this.noOfRows, this.noOfCols, arrayBlocks, this.blockedIndices, this.speed, this);
+    else if(this.algoName == 'Dijkstra'){
+      dijkstra(this.startIdx[0], this.startIdx[1], this.endIdx[0], this.endIdx[1], this.noOfRows, this.noOfCols, arrayBlocks, this.blockedIndices, this.speed, this, arr);
+    }
     // else if(this.algoName == 'astar'){
 
     // }
@@ -237,6 +306,30 @@ export class BoardComponent implements OnInit {
         }
       }
     }
+
+    // let x = this.noOfCols - 5;
+    // while(x--) {
+    //   while(1) {
+    //     let xtmp = this.getRandomInt(0,this.noOfRows);
+    //     let ytmp = this.getRandomInt(5,this.noOfCols);
+    //     if(vis[xtmp][ytmp] == false && !(xtmp == this.startIdx[0] && ytmp==this.startIdx[1]) && !(xtmp == this.endIdx[0] && ytmp==this.endIdx[1]) ) {
+    //       vis[xtmp][ytmp] = true;
+    //       let updatedIndex = xtmp*this.noOfCols + ytmp;
+    //       // blockedIndices.push(updatedIndex);
+    //       blockedIndices[updatedIndex] = true;
+    //       break;
+    //     }
+    //   }
+    // }
+
+    // blockedIndices[4] = true;
+    // blockedIndices[54] = true;
+    // blockedIndices[104] = true;
+    // blockedIndices[154] = true;
+    // blockedIndices[153] = true;
+    // blockedIndices[152] = true;
+    // blockedIndices[151] = true;
+    // blockedIndices[150] = true;
 
     return blockedIndices;
   }

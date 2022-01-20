@@ -189,7 +189,7 @@ export function astar_test(start_i:number, start_j:number, end_i:number, end_j:n
 }
 
 
-export function astar(start_i:number, start_j:number, end_i:number, end_j:number, noOfRows:number, noOfCols:number, blocks:any, blockedIndices:boolean[], speed:number) {
+export function astar(start_i:number, start_j:number, end_i:number, end_j:number, noOfRows:number, noOfCols:number, blocks:any, blockedIndices:boolean[], speed:number, obj:any) {
     let close:any = [];
     let cnt:number = 1;
     let cnt1:number = 0;
@@ -202,7 +202,7 @@ export function astar(start_i:number, start_j:number, end_i:number, end_j:number
     let obj3:any = {};
     obj3[start_i] = obj2;
     open.push(obj3);
-    // console.log(open);
+    console.log(open); //{start_i:{start_j:{0:0}}}
     let dest:boolean = false;
     let path:any = [];
     while(open.length != 0) {
@@ -218,7 +218,7 @@ export function astar(start_i:number, start_j:number, end_i:number, end_j:number
         let f_obj:any;
         let obj:any;
         let min_g:any;
-        let min_h:any;
+        let min_h:any; //{start_i:{start_j:{0:0}}}
         for(let val = 0; val < open.length; val++) {
             curr_i = +Object.keys(open[val])[0]; // start_i
             obj = open[val][curr_i]; // {start_j: {0 : 0}}
@@ -237,7 +237,7 @@ export function astar(start_i:number, start_j:number, end_i:number, end_j:number
             }
         }
 
-        // console.log(min_i, min_j, key);
+        console.log(min_i, min_j, key);
         // console.log(key);
 
         // console.log("HEllo");
@@ -248,6 +248,8 @@ export function astar(start_i:number, start_j:number, end_i:number, end_j:number
 
         // console.log(open.length);
         // console.log(open);
+
+        let min_dist1 = 1000000000;
 
         for(let i = 0; i < row_inc.length; i++) {
             let new_i = (+min_i + +row_inc[i]);
@@ -260,13 +262,319 @@ export function astar(start_i:number, start_j:number, end_i:number, end_j:number
                 //     dest = true;
                 //     break;
                 // }
-
+                let idx:number = new_i*noOfCols + new_j;
+                // let c1:number = 0;
+                // for(let val in blockedIndices) {
+                //     if(+val == idx) {
+                //         c1=1;
+                //         break;
+                //     }
+                // }
+                if(blockedIndices[idx]) continue;
                 let curr_dist:any;
-                path[+((+min_i)*noOfCols + (+min_j))] = +((+new_i)*noOfCols + (+new_j));
+                // path[+((+min_i)*noOfCols + (+min_j))] = +((+new_i)*noOfCols + (+new_j));
                 
                 // curr_dist = min_dist + 1;
                 let curr_g:number = +min_g + 1;
-                let curr_h:number = +Math.abs(new_i - end_i) + +Math.abs(new_j - end_j);
+                let curr_h:number;
+                if(new_i == end_i && new_j == end_j) {
+                    curr_h = 0;
+                }
+                else{
+                    if(new_i == end_i) {
+                        if(new_j < end_j) {
+                            let k = 1;
+                            let flag:boolean = false;
+                            while(1) {
+                                if(new_j + k != end_j && blockedIndices[new_i*noOfCols + new_j + k] == true) {
+                                    flag = true;
+                                    break;
+                                }
+                                else if(new_j + k == end_j) {
+                                    break;
+                                }
+                                k++;
+                            }
+                            if(flag) {
+                                curr_h = +Math.abs(new_i - end_i) + +Math.abs(new_j - end_j) + 2;
+                            }
+                            else{
+                                curr_h = +Math.abs(new_i - end_i) + +Math.abs(new_j - end_j);
+                            }
+                        }
+                        else { 
+                            let k = 1;
+                            let flag:boolean = false;
+                            while(1) {
+                                if(new_j - k != end_j && blockedIndices[new_i*noOfCols + new_j - k] == true) {
+                                    flag = true;
+                                    break;
+                                }
+                                else if(new_j - k == end_j) {
+                                    break;
+                                }
+                                k++;
+                            }
+                            if(flag) {
+                                curr_h = +Math.abs(new_i - end_i) + +Math.abs(new_j - end_j) + 2;
+                            }
+                            else{
+                                curr_h = +Math.abs(new_i - end_i) + +Math.abs(new_j - end_j) ;
+                            }
+                        }
+                    }
+
+                    else if(new_j == end_j) {
+                        if(new_i < end_i) {
+                            let k = 1;
+                            let flag:boolean = false;
+                            while(1) {
+                                if(new_i + k != end_i && blockedIndices[(new_i + k)*noOfCols + new_j] == true) {
+                                    flag = true;
+                                    break;
+                                }
+                                else if(new_i + k == end_i) {
+                                    break;
+                                }
+                                k++;
+                            }
+                            if(flag) {
+                                curr_h = +Math.abs(new_i - end_i) + +Math.abs(new_j - end_j) + 2;
+                            }
+                            else{
+                                curr_h = +Math.abs(new_i - end_i) + +Math.abs(new_j - end_j);
+                            }
+                        }
+                        else { 
+                            let k = 1;
+                            let flag:boolean = false;
+                            while(1) {
+                                if(new_i - k != end_i && blockedIndices[(new_i - k)*noOfCols + new_j] == true) {
+                                    flag = true;
+                                    break;
+                                }
+                                else if(new_i - k == end_i) {
+                                    break;
+                                }
+                                k++;
+                            }
+                            if(flag) {
+                                curr_h = +Math.abs(new_i - end_i) + +Math.abs(new_j - end_j) + 2;
+                            }
+                            else{
+                                curr_h = +Math.abs(new_i - end_i) + +Math.abs(new_j - end_j) ;
+                            }
+                        }
+                    }
+                    else{
+                        if(new_i < end_i && new_j < end_j) {
+                            let tmp_i:number = new_i;
+                            let tmp_j:number = new_j;
+                            let co1:number = 0;
+                            while(tmp_j != end_j) {
+                                if(blockedIndices[tmp_i*noOfCols+tmp_j]) {
+                                    co1 = 1;
+                                    break;
+                                }
+                                tmp_j++;
+                            }
+
+                            while(tmp_i != end_i) {
+                                if(blockedIndices[tmp_i*noOfCols + tmp_j]) {
+                                    co1 = 1;
+                                    break;
+                                }
+                                tmp_i++;
+                            }
+
+                            // if(co1 != 1) {
+                            tmp_i = new_i;
+                            tmp_j = new_j;
+                            let co2:number = 0;
+                            while(tmp_i != end_i) {
+                                if(blockedIndices[tmp_i*noOfCols+tmp_j]) {
+                                    co2 = 1;
+                                    break;
+                                }
+                                tmp_i++;
+                            }
+                            while(tmp_j != end_j) {
+                                if(blockedIndices[tmp_i*noOfCols + tmp_j]) {
+                                    co2 = 1;
+                                    break;
+                                }
+                                tmp_j++;
+                            }
+                            // }
+                            
+                            if(co1 == 1 && co2 == 1) {
+                                curr_h = +Math.abs(new_i - end_i) + +Math.abs(new_j - end_j) + 2;
+                            }
+                            else {
+                                curr_h= +Math.abs(new_i - end_i) + +Math.abs(new_j - end_j);
+                            }
+                        }
+                        else if(new_i < end_i && new_j > end_j) {
+                            // if(blockedIndices[new_i*noOfCols + new_j - 1] && blockedIndices[(new_i+1)*noOfCols + new_j]) {
+                            //     curr_h = +Math.abs(new_i - end_i) + +Math.abs(new_j - end_j) + 2;
+                            // }
+                            // else {
+                            //     curr_h= +Math.abs(new_i - end_i) + +Math.abs(new_j - end_j);
+                            // }
+                            let tmp_i:number = new_i;
+                            let tmp_j:number = new_j;
+                            let co1:number = 0;
+                            while(tmp_j != end_j) {
+                                if(blockedIndices[tmp_i*noOfCols+tmp_j]) {
+                                    co1 = 1;
+                                    break;
+                                }
+                                tmp_j--;
+                            }
+
+                            while(tmp_i != end_i) {
+                                if(blockedIndices[tmp_i*noOfCols + tmp_j]) {
+                                    co1 = 1;
+                                    break;
+                                }
+                                tmp_i++;
+                            }
+
+                            // if(co1 != 1) {
+                            tmp_i = new_i;
+                            tmp_j = new_j;
+                            let co2:number = 0;
+                            while(tmp_i != end_i) {
+                                if(blockedIndices[tmp_i*noOfCols+tmp_j]) {
+                                    co2 = 1;
+                                    break;
+                                }
+                                tmp_i++;
+                            }
+                            while(tmp_j != end_j) {
+                                if(blockedIndices[tmp_i*noOfCols + tmp_j]) {
+                                    co2 = 1;
+                                    break;
+                                }
+                                tmp_j--;
+                            }
+                            // }
+                            
+                            if(co1 == 1 && co2 == 1) {
+                                curr_h = +Math.abs(new_i - end_i) + +Math.abs(new_j - end_j) + 2;
+                            }
+                            else {
+                                curr_h= +Math.abs(new_i - end_i) + +Math.abs(new_j - end_j);
+                            }
+                        }
+                        else if(new_i > end_i && new_j < end_j) {
+                            // if(blockedIndices[new_i*noOfCols + new_j + 1] && blockedIndices[(new_i-1)*noOfCols + new_j]) {
+                            //     curr_h = +Math.abs(new_i - end_i) + +Math.abs(new_j - end_j) + 2;
+                            // }
+                            // else {
+                            //     curr_h= +Math.abs(new_i - end_i) + +Math.abs(new_j - end_j);
+                            // }
+                            let tmp_i:number = new_i;
+                            let tmp_j:number = new_j;
+                            let co1:number = 0;
+                            while(tmp_j != end_j) {
+                                if(blockedIndices[tmp_i*noOfCols+tmp_j]) {
+                                    co1 = 1;
+                                    break;
+                                }
+                                tmp_j++;
+                            }
+
+                            while(tmp_i != end_i) {
+                                if(blockedIndices[tmp_i*noOfCols + tmp_j]) {
+                                    co1 = 1;
+                                    break;
+                                }
+                                tmp_i--;
+                            }
+
+                            // if(co1 != 1) {
+                            tmp_i = new_i;
+                            tmp_j = new_j;
+                            let co2:number = 0;
+                            while(tmp_i != end_i) {
+                                if(blockedIndices[tmp_i*noOfCols+tmp_j]) {
+                                    co2 = 1;
+                                    break;
+                                }
+                                tmp_i--;
+                            }
+                            while(tmp_j != end_j) {
+                                if(blockedIndices[tmp_i*noOfCols + tmp_j]) {
+                                    co2 = 1;
+                                    break;
+                                }
+                                tmp_j++;
+                            }
+                            // }
+                            
+                            if(co1 == 1 && co2 == 1) {
+                                curr_h = +Math.abs(new_i - end_i) + +Math.abs(new_j - end_j) + 2;
+                            }
+                            else {
+                                curr_h= +Math.abs(new_i - end_i) + +Math.abs(new_j - end_j);
+                            }
+                        }
+                        else {
+                            // if(blockedIndices[new_i*noOfCols + new_j - 1] && blockedIndices[(new_i - 1)*noOfCols + new_j]) {
+                            //     curr_h = +Math.abs(new_i - end_i) + +Math.abs(new_j - end_j) + 2;
+                            // }
+                            // else {
+                            //     curr_h= +Math.abs(new_i - end_i) + +Math.abs(new_j - end_j);
+                            // }
+                            let tmp_i:number = new_i;
+                            let tmp_j:number = new_j;
+                            let co1:number = 0;
+                            while(tmp_j != end_j) {
+                                if(blockedIndices[tmp_i*noOfCols+tmp_j]) {
+                                    co1 = 1;
+                                    break;
+                                }
+                                tmp_j--;
+                            }
+
+                            while(tmp_i != end_i) {
+                                if(blockedIndices[tmp_i*noOfCols + tmp_j]) {
+                                    co1 = 1;
+                                    break;
+                                }
+                                tmp_i--;
+                            }
+
+                            // if(co1 != 1) {
+                            tmp_i = new_i;
+                            tmp_j = new_j;
+                            let co2:number = 0;
+                            while(tmp_i != end_i) {
+                                if(blockedIndices[tmp_i*noOfCols+tmp_j]) {
+                                    co2 = 1;
+                                    break;
+                                }
+                                tmp_i--;
+                            }
+                            while(tmp_j != end_j) {
+                                if(blockedIndices[tmp_i*noOfCols + tmp_j]) {
+                                    co2 = 1;
+                                    break;
+                                }
+                                tmp_j--;
+                            }
+                            // }
+                            
+                            if(co1 == 1 && co2 == 1) {
+                                curr_h = +Math.abs(new_i - end_i) + +Math.abs(new_j - end_j) + 2;
+                            }
+                            else {
+                                curr_h= +Math.abs(new_i - end_i) + +Math.abs(new_j - end_j);
+                            }
+                        }
+                    }
+                }   
                 // console.log(curr_h);    
                 // for(let val in open) {
                 //     let curr_i:any = Object.keys(open[val][0]);
@@ -285,6 +593,11 @@ export function astar(start_i:number, start_j:number, end_i:number, end_j:number
                 // }
 
                 let c:number = 0;
+
+                if(curr_g + curr_h < min_dist1) {
+                    min_dist1 = curr_g + curr_h;
+                    path[+((+min_i)*noOfCols + (+min_j))] = +((+new_i)*noOfCols + (+new_j));
+                }
 
                 for(let val = 0; val < open.length; val++) {
                     let curr_i1:any = +Object.keys(open[val])[0]; // start_i
@@ -372,18 +685,23 @@ export function astar(start_i:number, start_j:number, end_i:number, end_j:number
         console.log(idx);
         console.log(path[idx]);
         val1.push(path[idx]);
+        if(idx == path[path[idx]]) {
+            console.log("inf");
+            break;
+        }
         setTimeout(()=>{
             let idx:number = val1[0];
             val1.shift();
             blocks[idx].style.backgroundColor = 'turquoise';
-        }, c*1000);
-        c++;
+        }, c*300);
+        c+=0.5;
         idx = +path[idx];
     }
 
     setTimeout(()=>{
         val1.shift();
         blocks[end_i*noOfCols+end_j].style.backgroundColor = 'turquoise';
-    }, c*1000);
+        obj.blockEventFunc();
+    }, c*300);
 }
 

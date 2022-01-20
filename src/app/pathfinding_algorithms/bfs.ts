@@ -27,6 +27,23 @@ export function bfs_test(i:number, j:number, noOfRows:number, noOfCols:number){
 }
 
 export function bfs(start_i:number, start_j:number, end_i:number, end_j:number, noOfRows:number, noOfCols:number, blocks:any, blockedIndices:boolean[], speed:number, obj:any){
+
+    let flag:boolean = true;
+    for(let i = 0; i < row_inc.length; i++) {
+        let new_i = start_i + row_inc[i];
+        let new_j = start_i + col_inc[i];
+        if(isValid(new_i, new_j, noOfRows, noOfCols)) {
+            if(!blockedIndices[new_i*noOfCols + new_j]) {
+                flag = false;
+                break;
+            }
+        }
+    }
+
+    if(flag) {
+        obj.blockEventFunc();
+    }
+
     let c:number = 0; // for adjusting of the speed of the visualization
     let queue:[number, number][] = [[start_i,start_j]]; // queue is used to stroe the nodes that are being visited
     let path:number[] = []; // used to store the indexes of the path once the 
@@ -45,6 +62,7 @@ export function bfs(start_i:number, start_j:number, end_i:number, end_j:number, 
 
     let val1:[number, number, number, number, number][] = []; // used to access inside setTimeout
     // looping until all the nodes are visited
+    let counter:number = 0;
     while(queue.length != 0) {
         let node:any = queue.shift(); // gives the front element of the queue i.e., the currently visualizing node
         vis[start_i][start_j] = 1; // marking the current node as visited
@@ -54,6 +72,7 @@ export function bfs(start_i:number, start_j:number, end_i:number, end_j:number, 
             //checking if the new indices are valid and whether that node is not already visited
             if(isValid(new_i, new_j, noOfRows, noOfCols) && vis[new_i][new_j] == 0) {
                 if(blockedIndices[new_i*noOfCols+new_j]) continue;
+                counter++;
                 vis[new_i][new_j] = 1; //that current node i smarked as visited
                 val1.push([new_i, new_j, noOfCols, node[0], node[1]]); // adding new indices, no of columns and current indeices into array to access them inside setTimeout
                 let timerVar = setTimeout(() =>{
@@ -61,6 +80,10 @@ export function bfs(start_i:number, start_j:number, end_i:number, end_j:number, 
                         let [new_i, new_j, noOfCols, prev_i, prev_j]:[number, number, number, number, number] = val1[0]; // accessing the starting element from the val1 array
                         val1.shift(); //deleting the first leement of val1 array
                         // given i and j i.e., indices of row and column of 2d array, find corresponding index in 1d array
+                        counter--;
+                        if(counter == 0 && !(new_i == end_i && new_j == end_j)) {
+                            obj.blockEventFunc();
+                        }
                         let idx:number = (+new_i)*(+noOfCols)+(+new_j);
                         if(idx != start_i * noOfCols + start_j && idx != end_i * noOfCols + end_j)
                             blocks[idx].style.backgroundColor = '#48cae4'; // changing the background color of newly visited node

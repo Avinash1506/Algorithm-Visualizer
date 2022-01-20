@@ -91,6 +91,17 @@ table {
   text-align: center;
 }
 
+.box {
+  /* position:absolute; */
+  height: 20px;
+  width: 20px;
+  min-width: 20px;
+  border: 1px black solid;
+  display: inline-block;
+  padding: 0px;
+  margin: 0px;
+}
+
 .first{
   padding-left: 30px;
   /* position : relative;

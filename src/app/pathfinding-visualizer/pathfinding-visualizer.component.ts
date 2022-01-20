@@ -13,7 +13,7 @@ export class PathfindingVisualizerComponent implements OnInit {
   generateNew:number = -1;
   visualize:number = -1;
   block:number = -1;
-  pathFindingTechniques:string[] = ["bfs","dfs"];
+  pathFindingTechniques:string[] = ["bfs","dfs","dijkstra"];
   textOnButtons:string[] = ["Visualize", "New Board"];
   algoName:string = '';
   unblock:number = -1;
