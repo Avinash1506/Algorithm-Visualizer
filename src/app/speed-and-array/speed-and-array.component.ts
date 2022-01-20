@@ -42,7 +42,9 @@ export class SpeedAndArrayComponent implements OnInit {
   @Output() positionEvent = new EventEmitter();
   @ViewChild('container') container: ElementRef = {} as ElementRef;
   ngOnInit(): void {
-    this.generateNew();
+    setTimeout(()=>{
+      this.generateNew();
+    }, 0);
     // this.arrayElements = [3, 2, 1, 4];
     // this.myEvent.emit(this.arrayElements);
   }
