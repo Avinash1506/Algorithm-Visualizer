@@ -26,7 +26,6 @@ export function insertionsortfunc(
       setTimeout(() => {
         let [k, val, i] = value1[0];
         value1.shift();
-        // value1.push(k - 1);
         if(i == array.length - 1) {
           arrayBars[k + 1].style.backgroundColor = '#8187dc';
         }
@@ -37,7 +36,6 @@ export function insertionsortfunc(
         arrayBars[k + 1].innerHTML = `${val}`;
       }, c * speed);
       j--;
-      console.log(c);
       c++;
     }
 

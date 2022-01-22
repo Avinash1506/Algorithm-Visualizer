@@ -97,8 +97,5 @@ export function selectionsortfunctest(array: number[]) {
     array[idx] = tmp;
   }
 
-  //   for (let val of array) {
-  //     console.log(val);
-  //   }
   return array;
 }

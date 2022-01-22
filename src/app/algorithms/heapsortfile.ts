@@ -13,7 +13,6 @@ let value3: [number, number, number, number, number, number, number][] = [];
 let value31: [number, number, number, number, number, number, number][] = [];
 let value4: [number, number, number, number, number, number][] = [];
 let value5: [number, number, number, number][] = [];
-// let prev: number[] = [];
 let deColoring: [number, number][] = [];
 function heapsorttest(array: number[]) {
   let lenOfArray: number = array.length;
@@ -89,7 +88,6 @@ function heapsort(array: number[], arrayBars: any, speed: number, obj:any) {
     }, c * speed);
     c++;
     swap(array, i, 0);
-    // prev.push(-1);
     heapify(array, i, 0, arrayBars, speed);
   }
 }
@@ -100,10 +98,6 @@ function buildHeap(
   speed: number
 ) {
   for (let i = Math.floor(lenOfArray / 2) - 1; i >= 0; i--) {
-    // setTimeout(()=>{
-
-    // })
-    // prev.push(-1);
     heapify(array, lenOfArray, i, arrayBars, speed);
   }
 }
@@ -121,22 +115,9 @@ function heapify(
   if (leftChild < lenOfArray) {
     value1.push([leftChild, rightChild, root, lenOfArray]);
     setTimeout(() => {
-      // let prev_root = prev[0];
-      // prev.shift();
-      // console.log(prev_root);
-      // if (prev_root !== -1) {
-      //   let prev_left = 2 * prev_root + 1;
-      //   let prev_right = 2 * prev_root + 2;
-      //   arrayBars[prev_root].style.backgroundColor = '#48cae4';
-      //   if (prev_left < lenOfArray)
-      //     arrayBars[prev_left].style.backgroundColor = '#48cae4';
-      //   if (prev_right < lenOfArray)
-      //     arrayBars[prev_right].style.backgroundColor = '#48cae4';
-      // }
       let [leftChild, rightChild, root, lenOfArray] = value1[0];
       value1.shift();
       arrayBars[root].style.backgroundColor = '#e76f51';
-      console.log('Hello');
       if (leftChild < lenOfArray)
         arrayBars[leftChild].style.backgroundColor = '#0077b6';
       if (rightChild < lenOfArray)
@@ -217,7 +198,6 @@ function heapify(
       if (leftChild < lenOfArray && arrayOfLeftChild > arrayOfLargest) {
         arrayBars[largest].style.backgroundColor = '#0077b6';
         arrayBars[leftChild].style.backgroundColor = '#e76f51';
-        console.log('Hello');
         if (rightChild < lenOfArray)
           arrayBars[rightChild].style.backgroundColor = '#0077b6';
       } else {
@@ -262,7 +242,6 @@ function heapify(
         if (leftChild < lenOfArray)
           arrayBars[leftChild].style.backgroundColor = '#0077b6';
         arrayBars[rightChild].style.backgroundColor = '#e76f51';
-        console.log('Hello');
       } else {
         arrayBars[largest].style.backgroundColor = '#e76f51';
         if (rightChild < lenOfArray)
@@ -271,7 +250,6 @@ function heapify(
     }, c * speed);
     c++;
 
-    // prev.push(root);
     if (largest !== root) {
       value4.push([
         largest,
@@ -290,9 +268,7 @@ function heapify(
         arrayBars[root].innerHTML = `${largest_val}`;
         arrayBars[root].style.height = `${largest_val * 15}px`;
         arrayBars[root].style.backgroundColor = '#e76f51';
-        console.log('Hello');
         arrayBars[largest].style.backgroundColor = '#0077b6';
-        console.log(largest);
       }, c * speed);
       c++;
       swap(array, largest, root);

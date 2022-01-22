@@ -50,13 +50,6 @@ function partition(
   c++;
   let i: number = lo - 1,
     tmp: number;
-  // value4.push(i);
-  // setTimeout(() => {
-  //   let idx: number = value4[0];
-  //   value4.shift();
-  //   if (idx >= 0) arrayBars[idx].style.backgroundColor = '#0077b6';
-  // }, c * speed);
-  // c++;
   for (let j = lo; j <= hi - 1; j++) {
     value5.push([j, lo, i]);
     setTimeout(() => {
@@ -111,14 +104,12 @@ function partition(
     let [idx1, val1, idx2, val2, lo] = value6[0];
     value6.shift();
     if (idx1 == idx2) {
-      console.log(idx1);
       arrayBars[idx1].style.backgroundColor = '#8187dc';
       cnt++;
       if(cnt == array.length - 1 && vis == false) {
         vis = true;
         obj.unblockElements();
       }
-      console.log("LLLasssttt");
     } else {
       arrayBars[idx1].style.backgroundColor = '#48cae4';
       if (

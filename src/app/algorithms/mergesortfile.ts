@@ -9,10 +9,7 @@ export function mergesortfunc(
   vis = false;
   c = 0;
   let copy: number[] = array;
-  console.log('inside mergeSort');
-  console.log(array);
   mergesorthelper(array, copy, 0, array.length - 1, arrayBars, speed, obj);
-  console.log(array);
   return array;
 }
 
@@ -56,7 +53,6 @@ function mergesort(
     if (array[i] < array[j]) {
       value1.push(i);
       setTimeout(() => {
-        console.log('hello-1');
         arrayBars[value1[0]].style.backgroundColor = '#e76f51';
         value1.shift();
       }, c * speed);
@@ -66,7 +62,6 @@ function mergesort(
     } else {
       value2.push(j);
       setTimeout(() => {
-        console.log('hello-2');
         arrayBars[value2[0]].style.backgroundColor = '#e76f51';
         value2.shift();
       }, c * speed);
@@ -79,7 +74,6 @@ function mergesort(
   while (i <= mid) {
     value3.push(i);
     setTimeout(() => {
-      console.log('hello-1');
       arrayBars[value3[0]].style.backgroundColor = '#e76f51';
       value3.shift();
     }, c * speed);
@@ -91,7 +85,6 @@ function mergesort(
   while (j <= endIdx) {
     value4.push(j);
     setTimeout(() => {
-      console.log('hello-2');
       arrayBars[value4[0]].style.backgroundColor = '#e76f51';
       value4.shift();
     }, c * speed);
@@ -105,7 +98,6 @@ function mergesort(
       array[i] = new_array[i - startIdx];
       value5.push(i);
       setTimeout(() => {
-        console.log('hello-3 ' + i);
         arrayBars[value5[0]].style.backgroundColor = '#8187dc';
         arrayBars[value5[0]].style.height = `${
           new_array[value5[0] - startIdx] * 15
@@ -115,7 +107,6 @@ function mergesort(
           vis = true;
           obj.unblockElements();
         }
-        console.log('array val: ', new_array[i - startIdx]);
         value5.shift();
       }, c * speed);
       c++;
@@ -125,13 +116,11 @@ function mergesort(
       array[i] = new_array[i - startIdx];
       value5.push(i);
       setTimeout(() => {
-        console.log('hello-3 ' + i);
         arrayBars[value5[0]].style.backgroundColor = '#0077b6';
         arrayBars[value5[0]].style.height = `${
           new_array[value5[0] - startIdx] * 15
         }px`;
         arrayBars[value5[0]].innerHTML = `${new_array[value5[0] - startIdx]}`;
-        console.log('array val: ', new_array[i - startIdx]);
         value5.shift();
       }, c * speed);
       c++;
@@ -193,4 +182,3 @@ function mergetest(
     array[i] = new_array[i - startIdx];
   }
 }
-//48,34,10,35,11,20,10,4,27,41
