@@ -7,10 +7,6 @@ export class BoldTextPipe implements PipeTransform {
 
   constructor(private sanitizer: Sanitizer){}
 
-  // transform(value: unknown, ...args: unknown[]): unknown {
-  //   return null;
-  // }
-
   transform(value: string, regex:string): any {
     return this.sanitize(this.replace(value, regex));
   }

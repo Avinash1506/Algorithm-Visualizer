@@ -13,18 +13,10 @@ export class PriorityQueue{
         this.a[this.size] = [ele1, ele2, ele3, ele4];
         this.size++;
         let i:number = this.size - 1;
-        // console.log(i);
-        // console.log(this.parent(i));
         while(i > 0 && (this.a[this.parent(i)][0] > this.a[i][0] || this.a[this.parent(i)][3] > this.a[i][3]) ) {
-            // let tmp = this.a[this.parent(i)][0];
-            // this.a[this.parent(i)][0] = this.a[i][0];
-            // this.a[i][0] = tmp;
-
             this.swap(this.a[this.parent(i)], this.a[i]);
             i = this.parent(i);
         }
-
-        // while(i > 0 && )
     }
 
     top():[number, number, number, number] {
@@ -34,12 +26,9 @@ export class PriorityQueue{
     pop() {
         this.a[0] = this.a[this.size - 1];
         this.size--;
-
-        // console.log("Pop"); 
         let i:number = 0;
         let mx:number = 0;
         while(i < this.size){
-            // console.log(i);
             if(this.leftChild(i) < this.size && (this.a[this.leftChild(i)][0] < this.a[mx][0] || this.a[this.leftChild(i)][3] < this.a[mx][3])) {
                 mx = this.leftChild(i);
             }

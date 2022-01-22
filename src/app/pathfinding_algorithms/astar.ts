@@ -3,18 +3,9 @@ import { isValid,initializeVisArray } from './commonwork';
 let row_inc = [0,1,0,-1];
 let col_inc = [1,0,-1,0];
 export function astar_test(start_i:number, start_j:number, end_i:number, end_j:number, noOfRows:number, noOfCols:number, blockedIndices:boolean[]) {
-    // const open = new Set();
-    // var ht = {};
-    // // open();
-    // open.add({cost: 0,nodeno: start_i*noOfCols+start_j});
-    // open.add({cost: 4,nodeno: start_i*noOfCols+start_j+2});
-    // open.add({cost: 1,nodeno: start_i*noOfCols+start_j+1});
-    // open.add({cost: 3,nodeno: start_i*noOfCols+start_j+3});
-    // console.log(open);
     let close:any = [];
     let cnt:number = 1;
     let cnt1:number = 0;
-    // let x:number = start_i*noOfCols + start_j;
     let open:any = [];
     let obj1:any = {};
     obj1[0] = 0;
@@ -23,11 +14,9 @@ export function astar_test(start_i:number, start_j:number, end_i:number, end_j:n
     let obj3:any = {};
     obj3[start_i] = obj2;
     open.push(obj3);
-    // console.log(open);
     let dest:boolean = false;
     let path:any = [];
     while(open.length != 0) {
-        // console.log(open[1]);
         let min_dist = 1000000000;
         let key:any;
         let g_val:any;
@@ -47,7 +36,6 @@ export function astar_test(start_i:number, start_j:number, end_i:number, end_j:n
             f_obj = obj[curr_j]; // {0 : 0}
             g_val = Object.keys(f_obj)[0];
             h_val = f_obj[g_val];
-            // h_val = obj[Object.keys()];
             if(+g_val + +h_val < +min_dist) {
                 min_g = +g_val;
                 min_h = +h_val;
@@ -58,17 +46,9 @@ export function astar_test(start_i:number, start_j:number, end_i:number, end_j:n
             }
         }
 
-        // console.log(min_i, min_j, key);
-        // console.log(key);
-
-        // console.log("HEllo");
-
         open.splice(key,1);
 
         console.log(min_i,min_j);
-
-        // console.log(open.length);
-        // console.log(open);
 
         for(let i = 0; i < row_inc.length; i++) {
             let new_i = (+min_i + +row_inc[i]);
@@ -76,53 +56,25 @@ export function astar_test(start_i:number, start_j:number, end_i:number, end_j:n
             if(isValid(new_i, new_j, noOfRows, noOfCols)) {
                 path[+((+new_i)*noOfCols + (+new_j))] = +((+min_i)*noOfCols + (+min_j));
                 if(blockedIndices[new_i*noOfCols+new_j]) continue;
-                // console.log("Hello-1");
                 if(new_i == end_i && new_j == end_j) {
-                    // console.log(new_i+' '+new_j);
                     dest = true;
                     break;
                 }
 
                 let curr_dist:any;
                 
-                // curr_dist = min_dist + 1;
                 let curr_g:number = +min_g + 1;
                 let curr_h:number = Math.abs(new_i - end_i) + Math.abs(new_j - end_j);
-                // console.log(curr_h);    
-                // for(let val in open) {
-                //     let curr_i:any = Object.keys(open[val][0]);
-                //     let obj:any = open[val][curr_i];
-                //     let curr_j = Object.keys(obj)[0];
-                //     dist = obj[Object.keys(obj)[0]];
-                //     // if(dist < min_dist) {
-                //     //     min_dist = dist;
-                //     //     min_i = curr_i;
-                //     //     min_j = curr_j;
-                //     //     key = obj;
-                //     // }
-                //     if(curr_i == new_i && curr_j == new_j && dist < curr_dist) {
-
-                //     }
-                // }
 
                 let c:number = 0;
 
                 for(let val = 0; val < open.length; val++) {
                     let curr_i1:any = +Object.keys(open[val])[0]; // start_i
                     let obj:any = open[val][curr_i1]; // {start_j: {0 : 0}}
-                    // console.log(obj);
                     let curr_j1 = +Object.keys(obj)[0]; 
-                    // console.log(curr_j1);
                     let f_obj = obj[curr_j1]; // {0 : 0}
                     g_val = +Object.keys(f_obj)[0];
                     h_val = +f_obj[g_val];
-                    // h_val = obj[Object.keys()];
-                    // if(g_val + h_val < min_dist) {
-                    //     min_dist = g_val + h_val;
-                    //     min_i = curr_i;
-                    //     min_j = curr_j;
-                    //     key = obj;
-                    // }
                     if(curr_i1 == new_i && curr_j1 == new_j &&  g_val + h_val <= +curr_g + +curr_h) {
                         c = 1;
                         break;
@@ -130,7 +82,6 @@ export function astar_test(start_i:number, start_j:number, end_i:number, end_j:n
                 }
 
                 if(c == 1) {
-                    // console.log("continue");
                     continue;
                 }
 
@@ -142,7 +93,6 @@ export function astar_test(start_i:number, start_j:number, end_i:number, end_j:n
                         let f_obj = obj[curr_j]; // {0 : 0}
                         g_val = +Object.keys(f_obj)[0];
                         h_val = +f_obj[g_val];
-                        // h_val = obj[Object.keys()];
                         if(curr_i == new_i && curr_j == new_j &&  g_val + h_val <= +curr_g + +curr_h) {
                             c = 1;
                             break;
@@ -151,7 +101,6 @@ export function astar_test(start_i:number, start_j:number, end_i:number, end_j:n
                 }
 
                 if(c == 1) {
-                    // console.log(curr_i+" "+curr_j);
                     console.log("continue");
                     continue;
                 }
@@ -163,7 +112,6 @@ export function astar_test(start_i:number, start_j:number, end_i:number, end_j:n
                 let obj3:any = {};
                 obj3[new_i] = obj2;
                 open.push(obj3);
-                // console.log(open);
             }
         }
 
@@ -175,13 +123,9 @@ export function astar_test(start_i:number, start_j:number, end_i:number, end_j:n
         obj3[curr_i] = obj2;
         close.push(obj3);
 
-        // console.log(obj3);
-
         if(dest == true) {
-            // console.log("Hi");
             break;
         }
-        // close[cnt1++] = {curr_i:{curr_j:{g_val:h_val}}};
 
     }
 
@@ -193,7 +137,6 @@ export function astar(start_i:number, start_j:number, end_i:number, end_j:number
     let close:any = [];
     let cnt:number = 1;
     let cnt1:number = 0;
-    // let x:number = start_i*noOfCols + start_j;
     let open:any = [];
     let obj1:any = {};
     obj1[0] = 0;
@@ -206,7 +149,6 @@ export function astar(start_i:number, start_j:number, end_i:number, end_j:number
     let dest:boolean = false;
     let path:any = [];
     while(open.length != 0) {
-        // console.log(open[1]);
         let min_dist = 1000000000;
         let key:any;
         let g_val:any;
@@ -226,7 +168,6 @@ export function astar(start_i:number, start_j:number, end_i:number, end_j:number
             f_obj = obj[curr_j]; // {0 : 0}
             g_val = Object.keys(f_obj)[0];
             h_val = f_obj[g_val];
-            // h_val = obj[Object.keys()];
             if(+g_val + +h_val < +min_dist) {
                 min_g = +g_val;
                 min_h = +h_val;
@@ -238,16 +179,10 @@ export function astar(start_i:number, start_j:number, end_i:number, end_j:number
         }
 
         console.log(min_i, min_j, key);
-        // console.log(key);
-
-        // console.log("HEllo");
 
         open.splice(key,1);
 
         console.log(min_i,min_j);
-
-        // console.log(open.length);
-        // console.log(open);
 
         let min_dist1 = 1000000000;
 
@@ -255,26 +190,11 @@ export function astar(start_i:number, start_j:number, end_i:number, end_j:number
             let new_i = (+min_i + +row_inc[i]);
             let new_j = (+min_j + +col_inc[i]);
             if(isValid(new_i, new_j, noOfRows, noOfCols)) {
-                // if(blockedIndices[new_i*noOfCols+new_j]) continue;
-                // console.log("Hello-1");
-                // if(new_i == end_i && new_j == end_j) {
-                //     // console.log(new_i+' '+new_j);
-                //     dest = true;
-                //     break;
-                // }
                 let idx:number = new_i*noOfCols + new_j;
-                // let c1:number = 0;
-                // for(let val in blockedIndices) {
-                //     if(+val == idx) {
-                //         c1=1;
-                //         break;
-                //     }
-                // }
+
                 if(blockedIndices[idx]) continue;
                 let curr_dist:any;
-                // path[+((+min_i)*noOfCols + (+min_j))] = +((+new_i)*noOfCols + (+new_j));
-                
-                // curr_dist = min_dist + 1;
+        
                 let curr_g:number = +min_g + 1;
                 let curr_h:number;
                 if(new_i == end_i && new_j == end_j) {
@@ -387,7 +307,6 @@ export function astar(start_i:number, start_j:number, end_i:number, end_j:number
                                 tmp_i++;
                             }
 
-                            // if(co1 != 1) {
                             tmp_i = new_i;
                             tmp_j = new_j;
                             let co2:number = 0;
@@ -405,7 +324,6 @@ export function astar(start_i:number, start_j:number, end_i:number, end_j:number
                                 }
                                 tmp_j++;
                             }
-                            // }
                             
                             if(co1 == 1 && co2 == 1) {
                                 curr_h = +Math.abs(new_i - end_i) + +Math.abs(new_j - end_j) + 2;
@@ -415,12 +333,6 @@ export function astar(start_i:number, start_j:number, end_i:number, end_j:number
                             }
                         }
                         else if(new_i < end_i && new_j > end_j) {
-                            // if(blockedIndices[new_i*noOfCols + new_j - 1] && blockedIndices[(new_i+1)*noOfCols + new_j]) {
-                            //     curr_h = +Math.abs(new_i - end_i) + +Math.abs(new_j - end_j) + 2;
-                            // }
-                            // else {
-                            //     curr_h= +Math.abs(new_i - end_i) + +Math.abs(new_j - end_j);
-                            // }
                             let tmp_i:number = new_i;
                             let tmp_j:number = new_j;
                             let co1:number = 0;
@@ -440,7 +352,6 @@ export function astar(start_i:number, start_j:number, end_i:number, end_j:number
                                 tmp_i++;
                             }
 
-                            // if(co1 != 1) {
                             tmp_i = new_i;
                             tmp_j = new_j;
                             let co2:number = 0;
@@ -458,7 +369,6 @@ export function astar(start_i:number, start_j:number, end_i:number, end_j:number
                                 }
                                 tmp_j--;
                             }
-                            // }
                             
                             if(co1 == 1 && co2 == 1) {
                                 curr_h = +Math.abs(new_i - end_i) + +Math.abs(new_j - end_j) + 2;
@@ -468,12 +378,6 @@ export function astar(start_i:number, start_j:number, end_i:number, end_j:number
                             }
                         }
                         else if(new_i > end_i && new_j < end_j) {
-                            // if(blockedIndices[new_i*noOfCols + new_j + 1] && blockedIndices[(new_i-1)*noOfCols + new_j]) {
-                            //     curr_h = +Math.abs(new_i - end_i) + +Math.abs(new_j - end_j) + 2;
-                            // }
-                            // else {
-                            //     curr_h= +Math.abs(new_i - end_i) + +Math.abs(new_j - end_j);
-                            // }
                             let tmp_i:number = new_i;
                             let tmp_j:number = new_j;
                             let co1:number = 0;
@@ -493,7 +397,6 @@ export function astar(start_i:number, start_j:number, end_i:number, end_j:number
                                 tmp_i--;
                             }
 
-                            // if(co1 != 1) {
                             tmp_i = new_i;
                             tmp_j = new_j;
                             let co2:number = 0;
@@ -511,7 +414,6 @@ export function astar(start_i:number, start_j:number, end_i:number, end_j:number
                                 }
                                 tmp_j++;
                             }
-                            // }
                             
                             if(co1 == 1 && co2 == 1) {
                                 curr_h = +Math.abs(new_i - end_i) + +Math.abs(new_j - end_j) + 2;
@@ -521,12 +423,6 @@ export function astar(start_i:number, start_j:number, end_i:number, end_j:number
                             }
                         }
                         else {
-                            // if(blockedIndices[new_i*noOfCols + new_j - 1] && blockedIndices[(new_i - 1)*noOfCols + new_j]) {
-                            //     curr_h = +Math.abs(new_i - end_i) + +Math.abs(new_j - end_j) + 2;
-                            // }
-                            // else {
-                            //     curr_h= +Math.abs(new_i - end_i) + +Math.abs(new_j - end_j);
-                            // }
                             let tmp_i:number = new_i;
                             let tmp_j:number = new_j;
                             let co1:number = 0;
@@ -546,7 +442,6 @@ export function astar(start_i:number, start_j:number, end_i:number, end_j:number
                                 tmp_i--;
                             }
 
-                            // if(co1 != 1) {
                             tmp_i = new_i;
                             tmp_j = new_j;
                             let co2:number = 0;
@@ -564,7 +459,6 @@ export function astar(start_i:number, start_j:number, end_i:number, end_j:number
                                 }
                                 tmp_j--;
                             }
-                            // }
                             
                             if(co1 == 1 && co2 == 1) {
                                 curr_h = +Math.abs(new_i - end_i) + +Math.abs(new_j - end_j) + 2;
@@ -575,22 +469,6 @@ export function astar(start_i:number, start_j:number, end_i:number, end_j:number
                         }
                     }
                 }   
-                // console.log(curr_h);    
-                // for(let val in open) {
-                //     let curr_i:any = Object.keys(open[val][0]);
-                //     let obj:any = open[val][curr_i];
-                //     let curr_j = Object.keys(obj)[0];
-                //     dist = obj[Object.keys(obj)[0]];
-                //     // if(dist < min_dist) {
-                //     //     min_dist = dist;
-                //     //     min_i = curr_i;
-                //     //     min_j = curr_j;
-                //     //     key = obj;
-                //     // }
-                //     if(curr_i == new_i && curr_j == new_j && dist < curr_dist) {
-
-                //     }
-                // }
 
                 let c:number = 0;
 
@@ -602,19 +480,13 @@ export function astar(start_i:number, start_j:number, end_i:number, end_j:number
                 for(let val = 0; val < open.length; val++) {
                     let curr_i1:any = +Object.keys(open[val])[0]; // start_i
                     let obj:any = open[val][curr_i1]; // {start_j: {0 : 0}}
-                    // console.log(obj);
+                    
                     let curr_j1 = +Object.keys(obj)[0]; 
-                    // console.log(curr_j1);
+                    
                     let f_obj = obj[curr_j1]; // {0 : 0}
                     g_val = +Object.keys(f_obj)[0];
                     h_val = +f_obj[g_val];
-                    // h_val = obj[Object.keys()];
-                    // if(g_val + h_val < min_dist) {
-                    //     min_dist = g_val + h_val;
-                    //     min_i = curr_i;
-                    //     min_j = curr_j;
-                    //     key = obj;
-                    // }
+
                     if(curr_i1 == new_i && curr_j1 == new_j &&  g_val + h_val <= +curr_g + +curr_h) {
                         c = 1;
                         break;
@@ -622,7 +494,6 @@ export function astar(start_i:number, start_j:number, end_i:number, end_j:number
                 }
 
                 if(c == 1) {
-                    // console.log("continue");
                     continue;
                 }
 
@@ -634,7 +505,6 @@ export function astar(start_i:number, start_j:number, end_i:number, end_j:number
                         let f_obj = obj[curr_j]; // {0 : 0}
                         g_val = +Object.keys(f_obj)[0];
                         h_val = +f_obj[g_val];
-                        // h_val = obj[Object.keys()];
                         if(curr_i == new_i && curr_j == new_j &&  g_val + h_val <= +curr_g + +curr_h) {
                             c = 1;
                             break;
@@ -643,7 +513,6 @@ export function astar(start_i:number, start_j:number, end_i:number, end_j:number
                 }
 
                 if(c == 1) {
-                    // console.log(curr_i+" "+curr_j);
                     console.log("continue");
                     continue;
                 }
@@ -655,7 +524,6 @@ export function astar(start_i:number, start_j:number, end_i:number, end_j:number
                 let obj3:any = {};
                 obj3[new_i] = obj2;
                 open.push(obj3);
-                // console.log(open);
             }
         }
 
@@ -666,15 +534,6 @@ export function astar(start_i:number, start_j:number, end_i:number, end_j:number
         let obj3:any = {};
         obj3[curr_i] = obj2;
         close.push(obj3);
-
-        // console.log(obj3);
-
-        // if(dest == true) {
-        //     // console.log("Hi");
-        //     break;
-        // }
-        // close[cnt1++] = {curr_i:{curr_j:{g_val:h_val}}};
-
     }
 
     console.log(path);

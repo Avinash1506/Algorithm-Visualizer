@@ -108,7 +108,6 @@ export function bfs(start_i:number, start_j:number, end_i:number, end_j:number, 
                                     if(node != start_i * noOfCols + start_j && node != end_i * noOfCols + end_j)
                                         blocks[node].style.backgroundColor = "#891A45"; // changing the color of path to green
                                     if(node == end_i*noOfCols + end_j && visEnd==false) {
-                                        console.log("Hello in if");
                                         visEnd = true;
                                         // let obj:SpeedAndArrayComponent = new SpeedAndArrayComponent();
                                         obj.blockEventFunc();

@@ -4,10 +4,8 @@ import { Component, OnInit, Input,Output, EventEmitter, SimpleChanges, ViewEncap
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
-  // encapsulation: ViewEncapsulation.None
 })
 export class HeaderComponent implements OnInit {
-  // sorting: string = 'merge';
   @Input() algorithms:string[] = [];
   @Input() algoType:string = '';
   @Input() algoName:string='Bubble Sort';
@@ -18,12 +16,10 @@ export class HeaderComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    // this.sort('merge');
     this.getAlgo(this.algoName, 1);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
     if('blockHeaderVar' in changes && changes['blockHeaderVar']['previousValue']!=undefined) {
       this.blockHeader = true;
     }
@@ -31,27 +27,14 @@ export class HeaderComponent implements OnInit {
       this.blockHeader = false;
     }
   } 
-  // sort(sortingTechnique: string) {
-  //   console.log('Hello' + sortingTechnique);
-  //   this.sorting = sortingTechnique;
-  //   console.log(sortingTechnique);
-  //   this.myEvent1.emit(this.sorting);
-  // }
   getAlgo(algo:any, type:number){
     if(type == 1) {
       this.algoName = algo;
-      console.log("Algo name in header ", this.algoName);
       this.myEvent1.emit(this.algoName);
     }
     else{
       this.algoName = algo['tab']['textLabel'];
       this.myEvent1.emit(this.algoName);
     }
-    console.log(algo);
-    
   }
-
-  // blockHeader(){
-
-  // }
 }

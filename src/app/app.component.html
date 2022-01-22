@@ -1,33 +1,6 @@
 
 <div *ngIf="!isSortOrPath; then thenBlock else elseBlock"></div>
 <ng-template #thenBlock>
-
-
-  <!-- <div class="navbar" id="myTopnav" style="background-color: #457b9d">
-    <a routerLink="/home" href="/home"><mat-icon>Home</mat-icon></a>
-    <div>
-      <a routerLink="/sorting-visualizer" href="/sorting-visualizer" [class.disabled] = "disabledEnable">Sorting Visualizer</a>
-      <a routerLink="/pathfinding-visualizer" href="/pathfinding-visualizer" [class.disabled] = "disabledEnable">Pathfinding Visualizer</a>
-    </div>
-    <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-      <i class="fa fa-bars"></i>
-    </a>
-  </div> -->
-
-  <!-- <mat-toolbar class="navbar" style="background-color: #457b9d">
-
-      <div><a routerLink="/home" href="/home" [class.disabled] = "disabledEnable">Home</a></div>
-      <div class="right">
-        <span><a routerLink="/sorting-visualizer" href="/sorting-visualizer" [class.disabled] = "disabledEnable" class="nav">Sorting Visualizer</a></span>
-        <span><a routerLink="/pathfinding-visualizer" href="/pathfinding-visualizer" [class.disabled] = "disabledEnable" class="nav">Pathfinding Visualizer</a></span>
-         -->
-        <!-- <button>click</button> -->
-        <!-- 
-        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-          click
-        </a>
-      </div>
-  </mat-toolbar> -->
   <mat-toolbar class="navbar" style="background-color: #457b9d" #nav>
 
     <div class="nav">
@@ -43,7 +16,6 @@
         <span #sort class="nav1"><a routerLink="/sorting-visualizer" href="/sorting-visualizer" [class.disabled] = "disabledEnable">Sorting Visualizer</a></span>
         <span #pathfind class="nav1"><a routerLink="/pathfinding-visualizer" href="/pathfinding-visualizer" [class.disabled] = "disabledEnable">Pathfinding Visualizer</a></span>
       </div>  
-      <!-- <button>click</button> -->
     </div>
 </mat-toolbar>
   <router-outlet (activate)="blockUnblock($event)"></router-outlet>

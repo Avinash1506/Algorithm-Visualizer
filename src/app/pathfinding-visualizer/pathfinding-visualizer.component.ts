@@ -31,13 +31,11 @@ export class PathfindingVisualizerComponent implements OnInit {
 
   posDetails(posArray:number[]) {
     this.posArray = posArray;
-    console.log(posArray);
   }
   
   startVisualizing(){
     this.blockHeaderVar = (this.blockHeaderVar + 1) % 2;
     this.visualize = (this.visualize + 1)  % 2;
-    console.log("Block event");
     this.blockEvent.emit();
   }
 
@@ -45,16 +43,11 @@ export class PathfindingVisualizerComponent implements OnInit {
       this.generateNew = (this.generateNew + 1)  % 2;
   }
 
-  // blockedData(data:any) {
-  //   this.blockedIndices = data;
-  // }
-
   getSpeed(speed:number) {
     this.speed = speed;
   }
 
   blockElements(){
-    console.log("HEllo");
     this.block = (this.block + 1)  % 2;
     this.unblock = (this.unblock + 1)%2;
     this.unblockEvent.emit();
@@ -62,10 +55,6 @@ export class PathfindingVisualizerComponent implements OnInit {
 
   startAndEndIdxAndBlockedEvent(idxAndBlockedArray:any) {
     this.idxArray = [idxAndBlockedArray[0],idxAndBlockedArray[1],idxAndBlockedArray[2],idxAndBlockedArray[3]];
-    // this.idxArray = this.posArray;
     this.blockedIndices = idxAndBlockedArray[4];
   }
-  // unblockEventFunc() {
-    
-  // }
 }

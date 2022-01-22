@@ -33,7 +33,6 @@ export class BoardComponent implements OnInit {
   constructor(private elem:ElementRef) {}
 
   ngOnInit(): void {
-    // setTimeout(()=>{
       this.rows = [];
       this.columns = [];
       this.arr = [];
@@ -46,23 +45,14 @@ export class BoardComponent implements OnInit {
       for(let i = 0; i < this.noOfCols; i++) {
         this.arr[i] = i;
       }
-    // }, 0);
-    
-    // this.startIdx = [5, 35];
-    // this.endIdx = [11, 15];
-    //generate indices which should be blocked
-    // this.blockedIndices = this.getBlockedIndices();
   }
 
   ngAfterViewInit(){
     setTimeout(()=>{
       this.noOfCols = this.calculateNoOfCols();
-      console.log(this.noOfCols);
       this.rows = [];
       this.columns = [];
       this.arr = [];
-      // this.noOfCols = this.calculateNoOfCols();
-      console.log(this.noOfCols);
       for (let i = 0; i < this.noOfRows; i++) {
         this.rows.push(i);
       }
@@ -74,58 +64,11 @@ export class BoardComponent implements OnInit {
       }
     }, 0);
     setTimeout(()=>{
-      this.generateNewBoard('first');
+      this.generateNewBoard();
     }, 0);
-    // this.rows = [];
-    // setTimeout(()=>{
-    //   this.rows = [];
-    //   this.columns = [];
-    //   this.arr = [];
-    //   this.noOfCols = this.calculateNoOfCols();
-    //   console.log(this.noOfCols);
-    //   for (let i = 0; i < this.noOfRows; i++) {
-    //     this.rows.push(i);
-    //   }
-    //   for (let i = 0; i < this.noOfCols ; i++) {
-    //     this.columns.push(i);
-    //   }
-    //   for(let i = 0; i < this.noOfCols; i++) {
-    //     this.arr.push(i);
-    //   }
-    // }, 0);
-    // this.columns = [];
-    // this.arr = [];
-    // this.noOfCols = this.calculateNoOfCols();
-    // console.log(this.noOfCols);
-    // for (let i = 0; i < this.noOfRows; i++) {
-    //   this.rows.push(i);
-    // }
-    // for (let i = 0; i < this.noOfCols ; i++) {
-    //   this.columns.push(i);
-    // }
-    // for(let i = 0; i < this.noOfCols; i++) {
-    //   this.arr.push(i);
-    // }
-    // this.startIdx = [5, 35];
-    // this.endIdx = [11, 15];
-    // let arrayBlocks = this.elem.nativeElement.querySelectorAll('.blocks');
-    // console.log(arrayBlocks);
-    // let idx:number = this.startIdx[0]*this.noOfCols + this.startIdx[1];
-    // console.log(idx);
-    // arrayBlocks[idx].style.backgroundColor="#ef476f";
-    // idx = this.endIdx[0]*this.noOfCols + this.endIdx[1];
-    // arrayBlocks[idx].style.backgroundColor="#ffd166";
-    // for(let i = 0 ; i <= 15*50; i++) {
-    //   // let idx:number = this.blockedIndices[i];
-    //   if(this.blockedIndices[i]){
-    //     arrayBlocks[i].style.backgroundColor = "black";
-    //   }
-    // }
-    // colors the indices which should be blocked with black color
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
     if('algoName' in changes) {
       setTimeout(()=>{
         if(changes['algoName']['currentValue'] == 'Dijkstra') { 
@@ -137,45 +80,27 @@ export class BoardComponent implements OnInit {
       }, 0);
     }
     if('generateNew' in changes && changes['generateNew']['previousValue'] != undefined) {
-      // this.visualize(dijValues);
       setTimeout(()=>{
-        this.generateNewBoard('second');
-        console.log(this.appgrid['nativeElement']);
+        this.generateNewBoard();
         if(this.algoName == 'Dijkstra') {
           this.dijValues = this.generateWeights();
         }
       }, 0);
-      console.log("Hello");
     } 
 
     else{
       if('visualizeAlgo' in changes && changes['visualizeAlgo']['previousValue'] != undefined) {
         let idx:number = 0;
-        // let dijValues:number[] = [];
-        console.log(this.appgrid['nativeElement']);
-        // if(this.algoName == 'Dijkstra') {
-        //   this.dijValues = this.generateWeights();
-        // }
         this.visualize(this.dijValues);
       }
       if('posArray' in changes && changes['posArray']['firstChange'] != true) {
         let arrayBlocks = this.elem.nativeElement.querySelectorAll('.blocks');
         this.clearBoard(arrayBlocks);
-        console.log(changes);
-        console.log(this.startIdx);
-        // let startIdxPrev = [+changes['posArray']['previousValue'][0], +changes['posArray']['previousValue'][1]];
         let startIdxPrev = this.startIdx;
-        // let endIdxPrev = [+changes['posArray']['previousValue'][2], +changes['posArray']['previousValue'][3]];
         let endIdxPrev = this.endIdx;
         this.startIdx = [+changes['posArray']['currentValue'][0], +changes['posArray']['currentValue'][1]];
         this.endIdx = [+changes['posArray']['currentValue'][2], +changes['posArray']['currentValue'][3]];
         this.changeSourceAndDestination(this.startIdx, this.endIdx, startIdxPrev, endIdxPrev);
-        // let arrayBlocks = this.elem.nativeElement.querySelectorAll('.blocks');
-        // let idx:number = this.startIdx[0]*this.noOfCols + this.startIdx[1];
-        // console.log(idx);
-        // // arrayBlocks[idx].style.backgroundColor="red";
-        // idx = this.endIdx[0]*this.noOfCols + this.endIdx[1];
-        // arrayBlocks[idx].style.backgroundColor="blue";
       }
     }
   }
@@ -183,19 +108,17 @@ export class BoardComponent implements OnInit {
   generateWeights() {
     let dijValues:number[] = [];
     let idx:number = 0;
-    console.log(this.appgrid['nativeElement']['childNodes']);
     let collectionOfRows:any = this.appgrid['nativeElement']['childNodes'];
     for(let i=0;i<collectionOfRows.length - 1; i++) {
       let collectionOfCols:any = collectionOfRows[i]['childNodes'];
       for(let j = 2; j < collectionOfCols.length - 1; j++) {
-        // console.log(collectionOfCols[j]['childNodes']);
-        console.log(this.appgrid['nativeElement']['childNodes'][i]['childNodes'][j]);
         if(this.appgrid['nativeElement']['childNodes'][i]['childNodes'][j] != [] && this.blockedIndices[idx] == false)  {
             let val:number= this.getRandomInt(1,100);
             this.appgrid['nativeElement']['childNodes'][i]['childNodes'][j]['innerHTML'] = val;
             dijValues.push(val);
         }
         else if(this.appgrid['nativeElement']['childNodes'][i]['childNodes'][j] != [] && this.blockedIndices[idx] == true) {
+          this.appgrid['nativeElement']['childNodes'][i]['childNodes'][j]['innerHTML'] = '';
           dijValues.push(1000000000);
         }
         idx++;
@@ -208,13 +131,10 @@ export class BoardComponent implements OnInit {
   removeWeights() {
     let idx:number = 0;
     this.dijValues = [];
-    // console.log(this.appgrid['nativeElement']['childNodes']);
     let collectionOfRows:any = this.appgrid['nativeElement']['childNodes'];
     for(let i=0;i<collectionOfRows.length - 1; i++) {
       let collectionOfCols:any = collectionOfRows[i]['childNodes'];
       for(let j = 2; j < collectionOfCols.length - 1; j++) {
-        // console.log(collectionOfCols[j]['childNodes']);
-        // console.log(this.appgrid['nativeElement']['childNodes'][i]['childNodes'][j]);
         if(this.appgrid['nativeElement']['childNodes'][i]['childNodes'][j] != [] && this.blockedIndices[idx] == false)  {
             this.appgrid['nativeElement']['childNodes'][i]['childNodes'][j]['innerHTML'] = '';
         }
@@ -227,11 +147,9 @@ export class BoardComponent implements OnInit {
     let arrayBlocks = this.elem.nativeElement.querySelectorAll('.blocks');
     let idx1:number = startIdxPrev[0]*+this.noOfCols + startIdxPrev[1];
     let idx2:number = endIdxPrev[0]*+this.noOfCols + endIdxPrev[1];
-    console.log(idx1);
     arrayBlocks[idx1].style.backgroundColor="white";
     arrayBlocks[idx2].style.backgroundColor="white";
     idx1 = startIdx[0]*+this.noOfCols + startIdx[1];
-    console.log(idx1);
     arrayBlocks[idx1].style.backgroundColor="#ef476f";
     idx2 = endIdx[0]*+this.noOfCols + endIdx[1];
     arrayBlocks[idx2].style.backgroundColor="#ffd166";
@@ -239,7 +157,6 @@ export class BoardComponent implements OnInit {
 
   blockEventFunc(){
     this.blockedEvent.emit();
-    console.log("Hello in method");
   }
 
   visualize(arr:number[]){
@@ -248,31 +165,17 @@ export class BoardComponent implements OnInit {
     }
     let arrayBlocks = this.elem.nativeElement.querySelectorAll('.blocks');
     this.clearBoard(arrayBlocks);
-    // console.log(arrayBlocks);
-    // for(let i = 0; i < this.noOfRows*this.noOfCols; i++){
-    //   arrayBlocks[i].style.backgroundColor = "skyblue";
-    // }
-    console.log(this.startIdx[0],this.startIdx[1]);
-    // console.log(arrayBlocks);
-    console.log(this.algoName);
     if(this.algoName == 'BFS'){
-      // this.blockedEvent.emit();
-      console.log(bfs(this.startIdx[0], this.startIdx[1], this.endIdx[0], this.endIdx[1], this.noOfRows, this.noOfCols, arrayBlocks, this.blockedIndices, this.speed, this));
+      bfs(this.startIdx[0], this.startIdx[1], this.endIdx[0], this.endIdx[1], this.noOfRows, this.noOfCols, arrayBlocks, this.blockedIndices, this.speed, this);
     }
     else if(this.algoName == 'DFS'){
-      console.log("Hello in dfs");
-      let x = dfs(this.startIdx[0], this.startIdx[1], this.endIdx[0], this.endIdx[1], this.noOfRows, this.noOfCols, arrayBlocks, this.blockedIndices, this.speed, this);
-      console.log(x);
+      dfs(this.startIdx[0], this.startIdx[1], this.endIdx[0], this.endIdx[1], this.noOfRows, this.noOfCols, arrayBlocks, this.blockedIndices, this.speed, this);
     }
     else if(this.algoName == 'A Star')
-      // astar(this.startIdx[0], this.startIdx[1], this.endIdx[0], this.endIdx[1], this.noOfRows, this.noOfCols, arrayBlocks, this.blockedIndices, 500);
       astar(this.startIdx[0], this.startIdx[1], this.endIdx[0], this.endIdx[1], this.noOfRows, this.noOfCols, arrayBlocks, this.blockedIndices, this.speed, this);
     else if(this.algoName == 'Dijkstra'){
       dijkstra(this.startIdx[0], this.startIdx[1], this.endIdx[0], this.endIdx[1], this.noOfRows, this.noOfCols, arrayBlocks, this.blockedIndices, this.speed, this, arr);
     }
-    // else if(this.algoName == 'astar'){
-
-    // }
   }
 
   getBlockedIndices(){
@@ -280,16 +183,14 @@ export class BoardComponent implements OnInit {
     let row = [];
     let blockedIndices:boolean[] = [];
     for(let j=0;j<this.noOfCols;j++){
-      // blockedIndices.push(false);
       row.push(false);
     }
     for(let i=0;i<this.noOfRows;i++){
-      // blockedIndices.push(false);
       vis.push(row);
     }
 
     for(let i=0;i<this.noOfRows*this.noOfCols;i++) {
-      blockedIndices[i] = false;
+      this.blockedIndices[i] = false;
     }
 
     let x = this.noOfCols;
@@ -300,57 +201,21 @@ export class BoardComponent implements OnInit {
         if(vis[xtmp][ytmp] == false && !(xtmp == this.startIdx[0] && ytmp==this.startIdx[1]) && !(xtmp == this.endIdx[0] && ytmp==this.endIdx[1]) ) {
           vis[xtmp][ytmp] = true;
           let updatedIndex = xtmp*this.noOfCols + ytmp;
-          // blockedIndices.push(updatedIndex);
-          blockedIndices[updatedIndex] = true;
+          this.blockedIndices[updatedIndex] = true;
           break;
         }
       }
     }
-
-    // let x = this.noOfCols - 5;
-    // while(x--) {
-    //   while(1) {
-    //     let xtmp = this.getRandomInt(0,this.noOfRows);
-    //     let ytmp = this.getRandomInt(5,this.noOfCols);
-    //     if(vis[xtmp][ytmp] == false && !(xtmp == this.startIdx[0] && ytmp==this.startIdx[1]) && !(xtmp == this.endIdx[0] && ytmp==this.endIdx[1]) ) {
-    //       vis[xtmp][ytmp] = true;
-    //       let updatedIndex = xtmp*this.noOfCols + ytmp;
-    //       // blockedIndices.push(updatedIndex);
-    //       blockedIndices[updatedIndex] = true;
-    //       break;
-    //     }
-    //   }
-    // }
-
-    // blockedIndices[4] = true;
-    // blockedIndices[54] = true;
-    // blockedIndices[104] = true;
-    // blockedIndices[154] = true;
-    // blockedIndices[153] = true;
-    // blockedIndices[152] = true;
-    // blockedIndices[151] = true;
-    // blockedIndices[150] = true;
-
-    return blockedIndices;
   }
 
-  generateNewBoard(str:string){
-    // let i:number = 0;
-    // let j:number = 0;
+  generateNewBoard(){
     let arrayBlocks = this.elem.nativeElement.querySelectorAll('.blocks');
-    console.log(arrayBlocks.length);
-    // for(let i = 0 ; i <= 15*50; i++) {
-    //   // let idx:number = this.blockedIndices[i];
-    //   if(arrayBlocks[i].style.backgroundColor != 'red' && arrayBlocks[i].style.backgroundColor != 'blue'){
-    //     arrayBlocks[i].style.backgroundColor = 'white';
-    //   }
-    // }
+
     let idx:number = this.startIdx[0]*this.noOfCols + this.startIdx[1];
     arrayBlocks[idx].style.backgroundColor = 'white';
     idx = this.endIdx[0]*this.noOfCols + this.endIdx[1];
     arrayBlocks[idx].style.backgroundColor = 'white';
 
-    // console.log(arrayBlocks);
     this.startIdx[0] = this.getRandomInt(0, this.noOfRows);
     this.startIdx[1] = this.getRandomInt(0, this.noOfCols);
     while(1) {
@@ -360,21 +225,18 @@ export class BoardComponent implements OnInit {
         break;
       }
     }
-    // if(str == 'first')
-    // this.startAndEndIdxEvent.emit([this.startIdx[0], this.startIdx[1], this.endIdx[0], this.endIdx[1]]);
+    
     idx = this.startIdx[0]*this.noOfCols + this.startIdx[1];
     arrayBlocks[idx].style.backgroundColor = '#ef476f';
     idx = this.endIdx[0]*this.noOfCols + this.endIdx[1];
     arrayBlocks[idx].style.backgroundColor = '#ffd166';
 
-    this.blockedIndices = this.getBlockedIndices();
+    this.getBlockedIndices();
+
     this.startAndEndIdxAndBlockedEvent.emit([this.startIdx[0], this.startIdx[1], this.endIdx[0], this.endIdx[1], this.blockedIndices]);
-    // this.blockedEvent1.emit(this.blockedIndices);
     
     for(let i = 0 ; i < this.noOfRows*this.noOfCols; i++) {
-      // let idx:number = this.blockedIndices[i];
       if(arrayBlocks[i].style.backgroundColor != 'rgb(239, 71, 111)' && arrayBlocks[i].style.backgroundColor != 'rgb(255, 209, 102)'){
-        console.log(arrayBlocks[i].style.backgroundColor);
         arrayBlocks[i].style.backgroundColor = 'white';
       }
       if(this.blockedIndices[i]){
@@ -391,7 +253,6 @@ export class BoardComponent implements OnInit {
 
   clearBoard(arrayBlocks:any) {
     for(let i=0;i<arrayBlocks.length;i++) {
-      // console.log(arrayBlocks[i].style.backgroundColor);
       if(arrayBlocks[i].style.backgroundColor == 'rgb(239, 71, 111)' || arrayBlocks[i].style.backgroundColor == 'rgb(255, 209, 102)') {
 
       }
@@ -414,10 +275,7 @@ export class BoardComponent implements OnInit {
       width = this.board.nativeElement.offsetWidth;
       width -= 40;
       width -= 5;
-      console.log(width / 22);
       width = Math.floor(width / 22);
-      // console.log(width);
-
     }
 
     return width;

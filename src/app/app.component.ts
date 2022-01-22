@@ -1,5 +1,4 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-// import { Router } from '@angular/router';
 import {Router, ActivatedRoute, NavigationStart} from '@angular/router';
 import {AlgorithmVisualizerComponent} from './sorting-visualizer/sorting-visualizer.component';
 import {PathfindingVisualizerComponent} from'./pathfinding-visualizer/pathfinding-visualizer.component';
@@ -18,34 +17,15 @@ export class AppComponent {
   @ViewChild('nav') nav: any = {} as ElementRef;
   @ViewChild('click') click: ElementRef = {} as ElementRef;
   @ViewChild('divElem') divElem: ElementRef = {} as ElementRef;
-  // arrayData: number[] = [];
-  // speed: number = 0;
-  // sortingTechniqueName: string = '';
-  // getArray(data: number[]) {
-  //   this.arrayData = data;
-  // }
-  // getSortingTechnique(sortName: string) {
-  //   this.sortingTechniqueName = sortName;
-  // }
-
-  // getSpeed(speed: number) {
-  //   this.speed = speed;
-  // }
   constructor(private router: Router) {
-    console.log(this.router.url);
-    
   }
 
   ngOnInit() {
-    console.log(this.router.url);
     this.router.events.subscribe(event =>{
       if (event instanceof NavigationStart){
-         console.log(event.url)
          this.routerChangeMethod(event.url);
       }
    })
-
-  //  this.blockUnblock(undefined);
   }
 
   routerChangeMethod(url:any){
@@ -56,11 +36,9 @@ export class AppComponent {
     else{
       this.isSortOrPath = true;
     }
-    console.log(url);
   }
 
   blockNav(){
-    console.log("block nav");
     this.disabledEnable = true;
   }
 
@@ -72,11 +50,9 @@ export class AppComponent {
     if(!(componentRef instanceof AlgorithmVisualizerComponent) && !(componentRef instanceof PathfindingVisualizerComponent)) {
       return;
     }
-    console.log("In blockUnblock");
     if(componentRef instanceof AlgorithmVisualizerComponent) {
       const sorting: AlgorithmVisualizerComponent = componentRef;
       sorting.blockEvent.subscribe(()=>{
-        console.log("Inside block");
         this.disabledEnable = true;
       })
       sorting.unblockEvent.subscribe(()=>{
@@ -87,7 +63,6 @@ export class AppComponent {
     if(componentRef instanceof PathfindingVisualizerComponent) {
       const pathfinding: PathfindingVisualizerComponent = componentRef;
       pathfinding.blockEvent.subscribe(()=>{
-        console.log("Inside block");
         this.disabledEnable = true;
       })
       pathfinding.unblockEvent.subscribe(()=>{
@@ -97,25 +72,18 @@ export class AppComponent {
   }
 
   openOrClose(){
-    console.log(this.sort['nativeElement']['classList']);
     if(this.search('makeVertical',this.sort['nativeElement']['classList'])) {
-      console.log("Hello");
       this.sort['nativeElement']['classList'].remove("makeVertical");
       this.pathfind['nativeElement']['classList'].remove("makeVertical");
       this.nav['_elementRef']['nativeElement']['classList'].remove("changeHeight");
     }
     else {
-      // this.sort['nativeElement']['classList'].add("changeHeight");
-      console.log(this.nav);
       this.nav['_elementRef']['nativeElement']['classList'].add("changeHeight");
       this.sort['nativeElement']['classList'].add("makeVertical");
       this.pathfind['nativeElement']['classList'].add("makeVertical");
       this.sort['nativeElement']['classList'].add("leftDis");
       this.pathfind['nativeElement']['classList'].add("leftDis");
-      // this.divElem['nativeElement']['classList'].remove("makeRight");
       this.divElem['nativeElement'].style.float = "none";
-      // this.click['nativeElement']['classList'].add("iconDis");
-      // this.pathfind['nativeElement']['classList'].add("changeHeight");
     }
   }
 
@@ -126,19 +94,4 @@ export class AppComponent {
 
     return false;
   }
-  // changeURL() {
-  //   console.log(this.router.url);
-  //   if(this.router.url == '/sorting-visualizer') {
-  //     console.log("sorting");
-  //   }
-  //   else if(this.router.url == '/pathfinding-visualizer') {
-  //     console.log("pathfinding");
-  //   }
-  //   else{
-  //     console.log("Home");
-  //   }
-  // }
-  // ngOnChanges() {
-  //   this.router.url;
-  // }
 }

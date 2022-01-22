@@ -74,7 +74,10 @@ function partition(
         arrayBars[j].style.backgroundColor = '#e9c46a';
         //remove previous color
         if (
-          j - 1 >= lo &&
+          j - 1 >= lo 
+          &&
+          idx1 - 1 >= 0 
+          &&
           arrayBars[idx1 - 1].style.backgroundColor !== 'rgb(129, 135, 220)'
         )
           arrayBars[idx1 - 1].style.backgroundColor = '#48cae4';

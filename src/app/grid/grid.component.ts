@@ -30,17 +30,14 @@ export class GridComponent implements OnInit {
   ngAfterViewInit():void{
     if(this.rowno==this.start[0] && this.colno==this.start[1]){
       this.isStart=true;
-      console.log("Hello in grid");
     }
     if(this.rowno==this.end[0] && this.colno==this.end[1]){
       this.isEnd=true;
     }
   }
   ngOnChanges(changes: SimpleChanges){
-    console.log("hello");
     if(this.rowno==this.start[0] && this.colno==this.start[1]){
       this.isStart=true;
-      console.log("Hello in grid");
     }
     if(this.rowno==this.end[0] && this.colno==this.end[1]){
       this.isEnd=true;

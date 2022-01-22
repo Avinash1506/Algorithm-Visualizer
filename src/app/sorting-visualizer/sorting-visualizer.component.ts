@@ -23,11 +23,9 @@ export class AlgorithmVisualizerComponent implements OnInit {
 
   getArray(data: number[]) {
     this.arrayData = data;
-    console.log('Helllloooo');
   }
 
   getSortingTechnique(sortName: string) {
-    console.log("Sorting name: ",sortName);
     this.sortingTechniqueName = sortName;
   }
 
@@ -36,12 +34,9 @@ export class AlgorithmVisualizerComponent implements OnInit {
     this.vc.changeSpeed(this.speed);
   }
   sortArray() {
-    console.log("Hello in sorting visualizer");
     this.sort = (this.sort + 1) % 2;
     this.blockHeaderVar = (this.blockHeaderVar + 1) % 2;
-    console.log("blockNav");
     this.blockEvent.emit();
-    // this.vc.sortArray(this.sortingTechniqueName);
   }
   unblockEventFunc() {
     this.unblock = (this.unblock + 1)%2;
