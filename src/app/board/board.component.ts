@@ -190,7 +190,8 @@ export class BoardComponent implements OnInit {
     }
 
     for(let i=0;i<this.noOfRows*this.noOfCols;i++) {
-      this.blockedIndices[i] = false;
+      // this.blockedIndices[i] = false;
+      blockedIndices[i] = false;
     }
 
     let x = this.noOfCols;
@@ -201,11 +202,14 @@ export class BoardComponent implements OnInit {
         if(vis[xtmp][ytmp] == false && !(xtmp == this.startIdx[0] && ytmp==this.startIdx[1]) && !(xtmp == this.endIdx[0] && ytmp==this.endIdx[1]) ) {
           vis[xtmp][ytmp] = true;
           let updatedIndex = xtmp*this.noOfCols + ytmp;
-          this.blockedIndices[updatedIndex] = true;
+          // this.blockedIndices[updatedIndex] = true;
+          blockedIndices[updatedIndex] = true;
           break;
         }
       }
     }
+
+    return blockedIndices;
   }
 
   generateNewBoard(){
@@ -231,15 +235,15 @@ export class BoardComponent implements OnInit {
     idx = this.endIdx[0]*this.noOfCols + this.endIdx[1];
     arrayBlocks[idx].style.backgroundColor = '#ffd166';
 
-    this.getBlockedIndices();
+    this.blockedIndices = this.getBlockedIndices();
 
-    this.startAndEndIdxAndBlockedEvent.emit([this.startIdx[0], this.startIdx[1], this.endIdx[0], this.endIdx[1], this.blockedIndices]);
+    this.startAndEndIdxAndBlockedEvent.emit([this.startIdx[0], this.startIdx[1], this.endIdx[0], this.endIdx[1], this.noOfRows, this.noOfCols, this.blockedIndices]);
     
     for(let i = 0 ; i < this.noOfRows*this.noOfCols; i++) {
       if(arrayBlocks[i].style.backgroundColor != 'rgb(239, 71, 111)' && arrayBlocks[i].style.backgroundColor != 'rgb(255, 209, 102)'){
         arrayBlocks[i].style.backgroundColor = 'white';
       }
-      if(this.blockedIndices[i]){
+      if(this.blockedIndices[i] == true){
         arrayBlocks[i].style.backgroundColor = "#111111";
       }
     }

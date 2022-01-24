@@ -8,6 +8,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 export class PathfindingVisualizerComponent implements OnInit {
   blockedIndices:boolean[] = [];
   idxArray:number[] = [];
+  startAndEndIdxArray:number[] = [];
   speed:number = 0;
   posArray:number[] = [5, 35, 11, 15];
   generateNew:number = -1;
@@ -54,7 +55,8 @@ export class PathfindingVisualizerComponent implements OnInit {
   }
 
   startAndEndIdxAndBlockedEvent(idxAndBlockedArray:any) {
-    this.idxArray = [idxAndBlockedArray[0],idxAndBlockedArray[1],idxAndBlockedArray[2],idxAndBlockedArray[3]];
-    this.blockedIndices = idxAndBlockedArray[4];
+    this.idxArray = [idxAndBlockedArray[0], idxAndBlockedArray[1], idxAndBlockedArray[2], idxAndBlockedArray[3]];
+    this.startAndEndIdxArray = [idxAndBlockedArray[4], idxAndBlockedArray[5]];
+    this.blockedIndices = idxAndBlockedArray[6];
   }
 }

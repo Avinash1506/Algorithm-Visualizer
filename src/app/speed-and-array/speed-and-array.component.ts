@@ -48,7 +48,6 @@ export class SpeedAndArrayComponent implements OnInit {
 
   ngOnChanges(changes:SimpleChanges) {
     if('idxArray' in changes && 'blockedIndices' in changes) {
-      
     }
     if('block' in changes && changes['block']['previousValue'] != undefined ) {
       this.disabledBool = !this.disabledBool;
@@ -149,7 +148,7 @@ export class SpeedAndArrayComponent implements OnInit {
     let posArray:any = [this.sourceX, this.sourceY, this.destinationX, this.destinationY];
     let idx1:number = (+this.sourceX)*(+this.noOfCols) + (+this.sourceY);
     let idx2:number = (+this.destinationX)*(+this.noOfCols) + (+this.destinationY);
-    if(this.blockedIndices[idx2] || this.destinationX < 0 || this.destinationX >= this.noOfRows || idx1 == idx2 || !flag) {
+    if(this.blockedIndices[idx2] == true || this.destinationX < 0 || this.destinationX >= this.noOfRows || idx1 == idx2 || !flag) {
       this.destinationX = +old;
     }
     else{

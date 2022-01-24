@@ -1,5 +1,5 @@
 <div class="container">
   <app-header (myEvent1)="getPathfindingAlgoName($event)" [blockHeaderVar]="blockHeaderVar" [unblock]="unblock" [algorithms]="pathFindingTechniques" algoType="Pathfinding" algoName="BFS"></app-header>
-  <app-speed-and-array [textOnButtons]="textOnButtons" (myEvent10) = "generateNewBoard()" (myEvent3) = "startVisualizing()" (positionEvent) = "posDetails($event)" (myEvent2)="getSpeed($event)" [block]="block" [sourceX]="idxArray[0]" [sourceY]="idxArray[1]" [destinationX]="idxArray[2]" [destinationY]="idxArray[3]" [blockedIndices] = "blockedIndices"></app-speed-and-array>
+  <app-speed-and-array [textOnButtons]="textOnButtons" (myEvent10) = "generateNewBoard()" (myEvent3) = "startVisualizing()" (positionEvent) = "posDetails($event)" (myEvent2)="getSpeed($event)" [block]="block" [sourceX]="idxArray[0]" [sourceY]="idxArray[1]" [destinationX]="idxArray[2]" [destinationY]="idxArray[3]" [blockedIndices] = "blockedIndices" [noOfRows]="startAndEndIdxArray[0]" [noOfCols]="startAndEndIdxArray[1]"></app-speed-and-array>
   <app-board [algoName]="algoName" [generateNew]="generateNew" [visualizeAlgo] = "visualize" [posArray] = "posArray" [speed] = "speed" (blockedEvent)="blockElements()" (startAndEndIdxAndBlockedEvent) = "startAndEndIdxAndBlockedEvent($event)"></app-board>
 </div>
