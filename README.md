@@ -1,6 +1,6 @@
 # AlgorithmVisualizer
 
-[Link to the website](https://unruffled-archimedes-3bed3d.netlify.app)
+[Link to the website](https://algorithm-visualizer-2022.netlify.app)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.9.
 
